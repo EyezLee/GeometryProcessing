@@ -1,2 +1,5 @@
 
 .vs/GeometryProcessing/v16/Browse.VC.opendb
+# ignores following folders
+bin/
+build/
