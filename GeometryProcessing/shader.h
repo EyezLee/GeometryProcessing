@@ -22,22 +22,24 @@ public:
 		// read stream
 		ifstream vertexFile, fragmentFile;
 		string vertexCode, fragmentCode;
-		vertexFile.exceptions(ifstream::failbit || ifstream::badbit);
-		fragmentFile.exceptions(ifstream::failbit || ifstream::badbit);
+		vertexFile.exceptions(ifstream::failbit | ifstream::badbit);
+		fragmentFile.exceptions(ifstream::failbit | ifstream::badbit);
 
 		try
 		{
 			stringstream vertexStream, fragmentStream;
 			vertexFile.open(vertexPath, ifstream::in);
 			vertexStream << vertexFile.rdbuf();
+			vertexFile.close();
 			vertexCode = vertexStream.str();
 			fragmentFile.open(fragmentPath, ifstream::in);
 			fragmentStream << fragmentFile.rdbuf();
+			fragmentFile.close();
 			fragmentCode = fragmentStream.str();
 		}
 		catch (ifstream::failure& e)
 		{
-			cout << "Failed to stream shader file" << endl;
+			cout << "Failed to read shader file" << endl;
 		}
 
 		const char* vertexShaderSource = vertexCode.c_str();
@@ -84,13 +86,14 @@ private:
 			if (!success)
 			{
 				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				cout << type << " compile error: " << infoLog << endl;
 			}
 		}
 		else
 		{
 			GLint success;
 			char infoLog[1024];
-			glGetShaderiv(shader, shaderID, &success);
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 			if (!success)
 			{
 				glGetShaderInfoLog(shader, 1024, NULL, infoLog);

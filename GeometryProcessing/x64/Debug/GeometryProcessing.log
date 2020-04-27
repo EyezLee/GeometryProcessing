@@ -1,3 +1,3 @@
 ﻿  main.cpp
-D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(38,29): warning C4101: 'e': unreferenced local variable
+D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(40,29): warning C4101: 'e': unreferenced local variable
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe
