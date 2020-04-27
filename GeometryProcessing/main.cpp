@@ -19,12 +19,12 @@ float vertices[] =
 	-0.5, 0.5, 0.0,
 	-0.5, -0.5, 0.0,
 	0.5, 0.5, 0.0,
-	0.5, -0.5, 0.0
+	//0.5, -0.5, 0.0
 };
 
 int index[] =
 {
-	0, 1, 2,
+	1, 0, 2,
 	1, 3, 2
 };
 
@@ -62,10 +62,10 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-	GLuint EBO; // element buffer object
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), &index, GL_STATIC_DRAW);
+	//GLuint EBO; // element buffer object
+	//glGenBuffers(1, &EBO);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), &index, GL_STATIC_DRAW);
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/default.vs";
@@ -80,7 +80,7 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		glClearColor(1, 0, 0, 1);
+		glClearColor(0, 0, 1, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// active shader program
@@ -88,7 +88,8 @@ int main()
 		// bind VAO
 		glBindVertexArray(VAO);
 		// draw
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

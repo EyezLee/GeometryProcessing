@@ -59,6 +59,10 @@ public:
 		glAttachShader(shaderID, fragmentShader);
 		glLinkProgram(shaderID);
 		CheckShaderProgram(shaderID, "PROGRAM");
+
+		// delete shaders
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
 	}
 
 	// set data
