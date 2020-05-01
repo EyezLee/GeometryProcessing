@@ -68,6 +68,10 @@ public:
 	}
 
 	// set data
+	void SetMat4(string name, glm::mat4 &value)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+	}
 
 	// use program
 	void UseShader()

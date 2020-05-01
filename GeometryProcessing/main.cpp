@@ -1,6 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+
+#include <../../parse.h>
 #include <../../GeometryProcessing/shader.h>
 // namespace 
 using namespace std;
@@ -16,10 +18,47 @@ void processInput(GLFWwindow* window);
 // vertices for testing
 float vertices[] =
 {
-	-0.5, 0.5, 0.0,
-	-0.5, -0.5, 0.0,
-	0.5, 0.5, 0.0,
-	0.5, -0.5, 0.0
+	-0.5f, -0.5f, -0.5f, 
+	0.5f, -0.5f, -0.5f,  
+	0.5f,  0.5f, -0.5f,  
+	0.5f,  0.5f, -0.5f,  
+	-0.5f,  0.5f, -0.5f, 
+	-0.5f, -0.5f, -0.5f, 
+
+	-0.5f, -0.5f,  0.5f, 
+	0.5f, -0.5f,  0.5f,  
+	0.5f,  0.5f,  0.5f,  
+	0.5f,  0.5f,  0.5f,  
+	-0.5f,  0.5f,  0.5f, 
+	-0.5f, -0.5f,  0.5f, 
+
+	-0.5f,  0.5f,  0.5f, 
+	-0.5f,  0.5f, -0.5f, 
+	-0.5f, -0.5f, -0.5f, 
+	-0.5f, -0.5f, -0.5f, 
+	-0.5f, -0.5f,  0.5f, 
+	-0.5f,  0.5f,  0.5f, 
+
+	0.5f,  0.5f,  0.5f,  
+	0.5f,  0.5f, -0.5f,  
+	0.5f, -0.5f, -0.5f,  
+	0.5f, -0.5f, -0.5f,  
+	0.5f, -0.5f,  0.5f,  
+	0.5f,  0.5f,  0.5f,  
+
+	-0.5f, -0.5f, -0.5f, 
+	0.5f, -0.5f, -0.5f,  
+	0.5f, -0.5f,  0.5f,  
+	0.5f, -0.5f,  0.5f,  
+	-0.5f, -0.5f,  0.5f, 
+	-0.5f, -0.5f, -0.5f, 
+
+	-0.5f,  0.5f, -0.5f, 
+	0.5f,  0.5f, -0.5f,  
+	0.5f,  0.5f,  0.5f,  
+	0.5f,  0.5f,  0.5f,  
+	-0.5f,  0.5f,  0.5f, 
+	-0.5f,  0.5f, -0.5f, 
 };
 
 int index[] =
@@ -27,6 +66,9 @@ int index[] =
 	1, 0, 2,
 	1, 3, 2
 };
+
+// scene data
+Scene scene;
 
 int main()
 {
@@ -62,10 +104,10 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-	GLuint EBO; // element buffer object
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), &index, GL_STATIC_DRAW);
+	//GLuint EBO; // element buffer object
+	//glGenBuffers(1, &EBO);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(index), &index, GL_STATIC_DRAW);
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/default.vs";
@@ -75,6 +117,15 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	string scenePath = "../src/hw5/scene_bunny.txt";
+	ParseScene(&scene, scenePath);
+
+	shaderProgram.UseShader(); // need to install shader program object first
+	glm::mat4 tempModel = glm::mat4(1.0f);
+	tempModel = glm::rotate(tempModel, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	shaderProgram.SetMat4("model", tempModel);
+	shaderProgram.SetMat4("camera", scene.camera);
+	shaderProgram.SetMat4("projection", scene.projection);
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
@@ -88,7 +139,7 @@ int main()
 		// bind VAO
 		glBindVertexArray(VAO);
 		// draw
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
