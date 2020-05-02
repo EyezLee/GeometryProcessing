@@ -13,7 +13,7 @@ using namespace std;
 
 void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
 void ParseLight(stringstream* scnFile, light_t* lits, string line);
-void ParseObj(stringstream* scnFile, string line, Scene* scn);
+void ParseObj(stringstream* scnFile, string line, Mesh* mesh);
 void ParseMatirialandWorldTrans();
 
 void ParseScene(Scene* scn, string scenePath)
@@ -44,7 +44,7 @@ void ParseScene(Scene* scn, string scenePath)
 		else if (firstWord == "light:")
 			ParseLight(&sceneStream, &scn->lights, line);
 		else if (firstWord == "objects:")
-			ParseObj(&sceneStream, line, scn);
+			ParseObj(&sceneStream, line, &scn->mesh);
 		//else 
 		//	ParseMatirialandWorldTrans();
 	}
@@ -80,7 +80,7 @@ void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 	}
 }
 
-void ParseObj(stringstream* sceneFile, string line, Scene* scn)
+void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 {
 	while (line.size() > 0)
 	{
@@ -93,21 +93,41 @@ void ParseObj(stringstream* sceneFile, string line, Scene* scn)
 		iss.clear();
 		string fullPath = "../src/hw5/" + objPath;
 		ifstream objFile;
+		stringstream objStream;
+		string objLine;
+
+		// enter into obj file
 		objFile.exceptions(ifstream::badbit | ifstream::failbit);
 		try
 		{
 			objFile.open(fullPath, ifstream::in);
-			stringstream objStream;
 			objStream << objFile.rdbuf();
 			objFile.close();
-			string objData = objStream.str();
-			cout << objData << endl;
+			cout << objStream.str() << endl;
 		}
 		catch (ifstream::failure e)
 		{
 			cout << "Fail to open .obj file" << endl;
 		}
-		cout << line << endl;
+		// parse obj file to scene.mesh
+		while (!objStream.eof())
+		{
+			getline(objStream, objLine);
+			istringstream iss(objLine);
+			glm::vec3 xyz;
+			iss >> tag >> xyz.x >> xyz.y >> xyz.z;
+			iss.clear();
+			if (tag == "f")
+			{
+				mesh->indices.push_back(xyz.x);
+				mesh->indices.push_back(xyz.y);
+				mesh->indices.push_back(xyz.z);
+			}
+			else if(tag == "v")
+			{
+				mesh->vertices.push_back(xyz);
+			}
+		}
 	}
 }
 

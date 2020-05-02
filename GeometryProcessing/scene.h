@@ -23,11 +23,15 @@ struct Material
 	float shininess;
 };
 
-using mesh_t = vector<glm::vec3>;
+struct Mesh
+{
+	vector<glm::vec3> vertices;
+	vector<GLuint> indices;
+};
 
 struct Model
 {
-	mesh_t* meshSource;
+	Mesh* meshSource;
 	Material material;
 	glm::mat4 modelMatrix;
 };
@@ -39,6 +43,7 @@ using model_t = vector<Model>;
 struct Scene
 {
 	string scenePath;
+	Mesh mesh;
 	glm::mat4 camera;
 	glm::mat4 projection;
 	light_t lights;
