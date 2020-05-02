@@ -27,7 +27,7 @@ using mesh_t = vector<glm::vec3>;
 
 struct Model
 {
-	mesh_t mesh;
+	mesh_t* meshSource;
 	Material material;
 	glm::mat4 modelMatrix;
 };
@@ -38,6 +38,7 @@ using model_t = vector<Model>;
 
 struct Scene
 {
+	string scenePath;
 	glm::mat4 camera;
 	glm::mat4 projection;
 	light_t lights;

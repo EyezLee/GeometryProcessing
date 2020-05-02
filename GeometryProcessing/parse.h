@@ -12,8 +12,8 @@
 using namespace std;
 
 void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
-void ParseLight(stringstream* scn, light_t* lits, string line);
-void ParseObj();
+void ParseLight(stringstream* scnFile, light_t* lits, string line);
+void ParseObj(stringstream* scnFile, string line, Scene* scn);
 void ParseMatirialandWorldTrans();
 
 void ParseScene(Scene* scn, string scenePath)
@@ -33,6 +33,7 @@ void ParseScene(Scene* scn, string scenePath)
 		cout << "Failed to load scene file: " << scenePath << endl;
 	}
 
+	scn->scenePath = scenePath;
 	string line;
 	while (!sceneStream.eof())
 	{
@@ -41,9 +42,9 @@ void ParseScene(Scene* scn, string scenePath)
 		if (firstWord == "camera:")
 			ParseCameraandProjection(&sceneStream, line, &scn->camera, &scn->projection);
 		else if (firstWord == "light:")
-			ParseLight(&sceneStream, &(scn->lights), line);
-		//else if (firstWord == "object:")
-		//	ParseObj();
+			ParseLight(&sceneStream, &scn->lights, line);
+		else if (firstWord == "objects:")
+			ParseObj(&sceneStream, line, scn);
 		//else 
 		//	ParseMatirialandWorldTrans();
 	}
@@ -51,7 +52,7 @@ void ParseScene(Scene* scn, string scenePath)
 
 void ParseCameraandProjection(stringstream* sceneFile, string line, glm::mat4* cam, glm::mat4* proj)
 {
-	while (line.size() != 0)
+	while (line.size() > 0)
 	{
 		getline(*sceneFile, line);
 		cout << line << endl;
@@ -65,7 +66,7 @@ void ParseCameraandProjection(stringstream* sceneFile, string line, glm::mat4* c
 
 void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 {
-	while (line.size() != 0)
+	while (line.size() > 0)
 	{
 		getline(*sceneFile, line);
 		line.erase(remove(line.begin(), line.end(), ','), line.end());
@@ -79,9 +80,35 @@ void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 	}
 }
 
-void ParseObj()
+void ParseObj(stringstream* sceneFile, string line, Scene* scn)
 {
-
+	while (line.size() > 0)
+	{
+		getline(*sceneFile, line);
+		if (line.size() == 0)
+			break;
+		string tag, objPath;
+		istringstream iss(line);
+		iss >> tag >> objPath;
+		iss.clear();
+		string fullPath = "../src/hw5/" + objPath;
+		ifstream objFile;
+		objFile.exceptions(ifstream::badbit | ifstream::failbit);
+		try
+		{
+			objFile.open(fullPath, ifstream::in);
+			stringstream objStream;
+			objStream << objFile.rdbuf();
+			objFile.close();
+			string objData = objStream.str();
+			cout << objData << endl;
+		}
+		catch (ifstream::failure e)
+		{
+			cout << "Fail to open .obj file" << endl;
+		}
+		cout << line << endl;
+	}
 }
 
 void ParseMatirialandWorldTrans()
