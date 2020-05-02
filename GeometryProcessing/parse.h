@@ -5,13 +5,14 @@
 #include <fstream>
 #include <ostream>
 #include <sstream>
+#include <algorithm>
 
 #include <../../scene.h>
 
 using namespace std;
 
-void ParseCameraandProjection(stringstream* scnFile, glm::mat4* cam, glm::mat4* proj, string line);
-void ParseLight(stringstream* scn, string line);
+void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
+void ParseLight(stringstream* scn, light_t* lits, string line);
 void ParseObj();
 void ParseMatirialandWorldTrans();
 
@@ -38,9 +39,9 @@ void ParseScene(Scene* scn, string scenePath)
 		getline(sceneStream, line);
 		string firstWord = line.substr(0);
 		if (firstWord == "camera:")
-			ParseCameraandProjection(&sceneStream, &scn->camera, &scn->projection, line);
+			ParseCameraandProjection(&sceneStream, line, &scn->camera, &scn->projection);
 		else if (firstWord == "light:")
-			ParseLight(&sceneStream, line);
+			ParseLight(&sceneStream, &(scn->lights), line);
 		//else if (firstWord == "object:")
 		//	ParseObj();
 		//else 
@@ -48,7 +49,7 @@ void ParseScene(Scene* scn, string scenePath)
 	}
 }
 
-void ParseCameraandProjection(stringstream* sceneFile, glm::mat4* cam, glm::mat4* proj, string line)
+void ParseCameraandProjection(stringstream* sceneFile, string line, glm::mat4* cam, glm::mat4* proj)
 {
 	while (line.size() != 0)
 	{
@@ -62,11 +63,18 @@ void ParseCameraandProjection(stringstream* sceneFile, glm::mat4* cam, glm::mat4
 	*proj = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 }
 
-void ParseLight(stringstream* sceneFile, string line)
+void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 {
 	while (line.size() != 0)
 	{
 		getline(*sceneFile, line);
+		line.erase(remove(line.begin(), line.end(), ','), line.end());
+		string tag;
+		Light currLit;
+		istringstream iss(line);
+		iss >> tag >> currLit.pos.x >> currLit.pos.y >> currLit.pos.z >> currLit.col.x >> currLit.col.y >> currLit.col.z >> currLit.atten_k;
+		iss.clear();
+		lits->push_back(currLit);
 		cout << line << endl;
 	}
 }

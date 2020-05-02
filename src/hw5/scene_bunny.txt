@@ -9,7 +9,7 @@ top 0.5
 bottom -0.5
 
 light:
-light 5 5 5 , 0 0.6 0.8 , 0
+light 5 5 5 , 0 0.6 0.8 , 0.5
 light -5 5 -5 , 0 0.1 0.2 , 0
 
 objects:
