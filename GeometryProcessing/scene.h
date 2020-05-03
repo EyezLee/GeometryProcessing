@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -33,6 +34,7 @@ struct Mesh
 
 struct Model
 {
+	string name;
 	Mesh* meshSource;
 	Material material;
 	glm::mat4 modelMatrix;
@@ -41,11 +43,13 @@ struct Model
 // type alias
 using light_t = vector<Light>;
 using model_t = vector<Model>;
+using mesh_map = std::map<string, Mesh>;
 
 struct Scene
 {
 	string scenePath;
-	Mesh mesh;
+	//Mesh mesh;
+	mesh_map meshMap;
 	glm::mat4 camera;
 	glm::mat4 projection;
 	light_t lights;

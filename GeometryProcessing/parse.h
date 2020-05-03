@@ -6,15 +6,17 @@
 #include <ostream>
 #include <sstream>
 #include <algorithm>
+#include <map>
 
 #include <../../scene.h>
 
 using namespace std;
 
+using mesh_map = std::map<string, Mesh>;
 void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
 void ParseLight(stringstream* scnFile, light_t* lits, string line);
-void ParseObj(stringstream* scnFile, string line, Mesh* mesh);
-void ParseMatirialandWorldTrans();
+void ParseObj(stringstream* scnFile, string line, mesh_map* meshMap);
+void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models);
 
 void ParseScene(Scene* scn, string scenePath)
 {
@@ -44,9 +46,9 @@ void ParseScene(Scene* scn, string scenePath)
 		else if (firstWord == "light:")
 			ParseLight(&sceneStream, &scn->lights, line);
 		else if (firstWord == "objects:")
-			ParseObj(&sceneStream, line, &scn->mesh);
-		//else 
-		//	ParseMatirialandWorldTrans();
+			ParseObj(&sceneStream, line, &scn->meshMap);
+		else 
+			ParseMatirialandWorldTrans(&sceneStream, line, &scn->models);
 	}
 }
 
@@ -80,23 +82,27 @@ void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 	}
 }
 
-void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
+void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 {
-	mesh->vertices.push_back(glm::vec3(0, 0, 0)); // shift to match indices which start at 1
 	while (line.size() > 0)
 	{
 		getline(*sceneFile, line);
 		if (line.size() == 0)
 			break;
+
+		// read and parse .obj file
 		string tag, objPath;
 		istringstream iss(line);
 		iss >> tag >> objPath;
 		iss.clear();
+
+		Mesh currMesh;
+		currMesh.vertices.push_back(glm::vec3(0, 0, 0)); // shift to match indices which start at 1
+
+		// enter into obj file
 		string fullPath = "../src/hw5/" + objPath;
 		ifstream objFile;
 		stringstream objStream;
-
-		// enter into obj file
 		objFile.exceptions(ifstream::badbit | ifstream::failbit);
 		try
 		{
@@ -121,19 +127,19 @@ void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 			{
 				glm::vec3 pos;
 				iss >> initial >> pos.x >> pos.y >> pos.z;
-				mesh->vertices.push_back(pos);
+				currMesh.vertices.push_back(pos);
 			}
 			else if (firstWord == "vt")
 			{
 				glm::vec2 coord;
 				iss >> initial >> coord.x >> coord.y;
-				mesh->texCoords.push_back(coord);
+				currMesh.texCoords.push_back(coord);
 			}
 			else if (firstWord == "vn")
 			{
 				glm::vec3 norm;
 				iss >> initial >> norm.x >> norm.y >> norm.z;
-				mesh->normals.push_back(norm);
+				currMesh.normals.push_back(norm);
 			}
 			else if (firstWord == "f")
 			{
@@ -143,19 +149,44 @@ void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 				iss >> initial >> vertexIndices[0] >> normalIndices[0]
 					>> vertexIndices[1] >> normalIndices[1]
 					>> vertexIndices[2] >> normalIndices[2];
-				mesh->indices.push_back(vertexIndices[0]);
-				mesh->indices.push_back(vertexIndices[1]);
-				mesh->indices.push_back(vertexIndices[2]);
+				currMesh.indices.push_back(vertexIndices[0]);
+				currMesh.indices.push_back(vertexIndices[1]);
+				currMesh.indices.push_back(vertexIndices[2]);
 				// parse normal indices when neccessary...
 			}
 			iss.clear();
 		}
+		meshMap->insert(std::pair<string, Mesh>(tag, currMesh));
 	}
 }
 
-void ParseMatirialandWorldTrans()
+void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models)
 {
-
+	int numModel = 0;
+	while (line.size() > 0)
+	{
+		string name;
+		if (line.size() == 1)
+		{
+			name = line;
+			numModel++;
+			Model currModel;
+			currModel.name = name;
+			models->push_back(currModel);
+		}
+		getline(*scnFile, line);
+		istringstream iss(line);
+		string tag = line.substr(0, line.find(" "));
+		if (models->size() > 0)
+		{
+			if (tag == "ambient")
+			{
+				glm::vec3 amb;
+				iss >> tag >> amb.x >> amb.y >> amb.z;
+			}
+		}
+		iss.clear();
+	}
 }
 
 #endif // !PARSER_H
