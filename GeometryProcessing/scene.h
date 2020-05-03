@@ -26,7 +26,9 @@ struct Material
 struct Mesh
 {
 	vector<glm::vec3> vertices;
+	vector<glm::vec3> normals;
 	vector<GLuint> indices;
+	vector<glm::vec2> texCoords;
 };
 
 struct Model

@@ -96,9 +96,8 @@ int main()
 		return -1;
 	}
 
-	string scenePath = "../src/hw5/scene_kitten.txt";
+	string scenePath = "../src/hw5/scene_bunny.txt";
 	ParseScene(&scene, scenePath);
-	// temperaly parse glm::vec3 to float[]
 
 	// VAO container: VBO + EBO + vertex attributes operation
 	GLuint VAO; // vertex array object

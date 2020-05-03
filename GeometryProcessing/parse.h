@@ -38,7 +38,7 @@ void ParseScene(Scene* scn, string scenePath)
 	while (!sceneStream.eof())
 	{
 		getline(sceneStream, line);
-		string firstWord = line.substr(0);
+		string firstWord = line.substr(0, line.find('\n'));
 		if (firstWord == "camera:")
 			ParseCameraandProjection(&sceneStream, line, &scn->camera, &scn->projection);
 		else if (firstWord == "light:")
@@ -82,6 +82,7 @@ void ParseLight(stringstream* sceneFile, light_t* lits, string line)
 
 void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 {
+	mesh->vertices.push_back(glm::vec3(0, 0, 0)); // shift to match indices which start at 1
 	while (line.size() > 0)
 	{
 		getline(*sceneFile, line);
@@ -94,7 +95,6 @@ void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 		string fullPath = "../src/hw5/" + objPath;
 		ifstream objFile;
 		stringstream objStream;
-		string objLine;
 
 		// enter into obj file
 		objFile.exceptions(ifstream::badbit | ifstream::failbit);
@@ -103,7 +103,7 @@ void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 			objFile.open(fullPath, ifstream::in);
 			objStream << objFile.rdbuf();
 			objFile.close();
-			cout << objStream.str() << endl;
+			//cout << objStream.str() << endl;
 		}
 		catch (ifstream::failure e)
 		{
@@ -112,21 +112,43 @@ void ParseObj(stringstream* sceneFile, string line, Mesh* mesh)
 		// parse obj file to scene.mesh
 		while (!objStream.eof())
 		{
+			string objLine;
 			getline(objStream, objLine);
 			istringstream iss(objLine);
-			glm::vec3 xyz;
-			iss >> tag >> xyz.x >> xyz.y >> xyz.z;
+			string firstWord = objLine.substr(0, objLine.find(" "));
+			string initial;
+			if (firstWord == "v")
+			{
+				glm::vec3 pos;
+				iss >> initial >> pos.x >> pos.y >> pos.z;
+				mesh->vertices.push_back(pos);
+			}
+			else if (firstWord == "vt")
+			{
+				glm::vec2 coord;
+				iss >> initial >> coord.x >> coord.y;
+				mesh->texCoords.push_back(coord);
+			}
+			else if (firstWord == "vn")
+			{
+				glm::vec3 norm;
+				iss >> initial >> norm.x >> norm.y >> norm.z;
+				mesh->normals.push_back(norm);
+			}
+			else if (firstWord == "f")
+			{
+				std::replace(objLine.begin(), objLine.end(), '/', ' ');
+				iss.str(objLine);
+				GLuint vertexIndices[3], normalIndices[3];
+				iss >> initial >> vertexIndices[0] >> normalIndices[0]
+					>> vertexIndices[1] >> normalIndices[1]
+					>> vertexIndices[2] >> normalIndices[2];
+				mesh->indices.push_back(vertexIndices[0]);
+				mesh->indices.push_back(vertexIndices[1]);
+				mesh->indices.push_back(vertexIndices[2]);
+				// parse normal indices when neccessary...
+			}
 			iss.clear();
-			if (tag == "f")
-			{
-				mesh->indices.push_back(xyz.x);
-				mesh->indices.push_back(xyz.y);
-				mesh->indices.push_back(xyz.z);
-			}
-			else if(tag == "v")
-			{
-				mesh->vertices.push_back(xyz);
-			}
 		}
 	}
 }

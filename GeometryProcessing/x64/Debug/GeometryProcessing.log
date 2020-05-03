@@ -1,31 +1,4 @@
 ﻿  main.cpp
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(122,32): warning C4244: 'argument': conversion from 'T' to 'const _Ty', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              _Ty=GLuint
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(123,32): warning C4244: 'argument': conversion from 'T' to 'const _Ty', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              _Ty=GLuint
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(124,32): warning C4244: 'argument': conversion from 'T' to 'const _Ty', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              _Ty=GLuint
-          ]
 D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(40,29): warning C4101: 'e': unreferenced local variable
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(144,77): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(143,77): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe
