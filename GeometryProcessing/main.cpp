@@ -96,7 +96,7 @@ int main()
 		return -1;
 	}
 
-	string scenePath = "../src/hw5/scene_bunny.txt";
+	string scenePath = "../src/hw5/scene_cube1.txt";
 	ParseScene(&scene, scenePath);
 
 	// VAO container: VBO + EBO + vertex attributes operation
@@ -106,11 +106,11 @@ int main()
 	GLuint VBO; // vertex buffer object
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, scene.mesh.vertices.size() * sizeof(glm::vec3), &scene.mesh.vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, scene.meshMap.begin()->second.vertices.size() * sizeof(glm::vec3), &scene.meshMap.begin()->second.vertices[0], GL_STATIC_DRAW);
 	GLuint EBO; // element buffer object
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, scene.mesh.indices.size() * sizeof(GLuint), &scene.mesh.indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, scene.meshMap.begin()->second.indices.size() * sizeof(GLuint), &scene.meshMap.begin()->second.indices[0], GL_STATIC_DRAW);
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/default.vs";
@@ -140,7 +140,7 @@ int main()
 		glBindVertexArray(VAO);
 		// draw
 		//glDrawArrays(GL_TRIANGLES, 0, scene.mesh.vertices.size());
-		glDrawElements(GL_TRIANGLES, scene.mesh.indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, scene.meshMap.begin()->second.indices.size(), GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

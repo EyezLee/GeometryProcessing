@@ -62,7 +62,7 @@ void ParseCameraandProjection(stringstream* sceneFile, string line, glm::mat4* c
 	// initialize matrix first
 	*cam = glm::mat4(1.0f); 
 	*proj = glm::mat4(1.0f);
-	*cam = glm::translate(*cam, glm::vec3(0.0f, 0.0f, -3.0f));
+	*cam = glm::translate(*cam, glm::vec3(0.0f, 0.0f, -5.0f));
 	*proj = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 }
 
