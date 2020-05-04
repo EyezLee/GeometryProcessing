@@ -16,7 +16,7 @@ using mesh_map = std::map<string, Mesh>;
 void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
 void ParseLight(stringstream* scnFile, light_t* lits, string line);
 void ParseObj(stringstream* scnFile, string line, mesh_map* meshMap);
-void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models);
+void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models, mesh_map* meshMap);
 
 void ParseScene(Scene* scn, string scenePath)
 {
@@ -48,7 +48,7 @@ void ParseScene(Scene* scn, string scenePath)
 		else if (firstWord == "objects:")
 			ParseObj(&sceneStream, line, &scn->meshMap);
 		else 
-			ParseMatirialandWorldTrans(&sceneStream, line, &scn->models);
+			ParseMatirialandWorldTrans(&sceneStream, line, &scn->models, &scn->meshMap);
 	}
 }
 
@@ -160,18 +160,19 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 	}
 }
 
-void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models)
+void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* models, mesh_map* meshMap)
 {
 	int numModel = 0;
 	while (line.size() > 0)
 	{
 		string name;
-		if (line.size() == 1)
+		if (meshMap->find(line) != meshMap->cend())
 		{
 			name = line;
 			numModel++;
 			Model currModel;
-			currModel.name = name;
+			currModel.meshSource = &(meshMap->find(name)->second);
+			currModel.modelMatrix = glm::mat4(1.0); // initialize matrix
 			models->push_back(currModel);
 		}
 		getline(*scnFile, line);
@@ -179,10 +180,49 @@ void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* mod
 		string tag = line.substr(0, line.find(" "));
 		if (models->size() > 0)
 		{
+			int modelCount = numModel - 1;
 			if (tag == "ambient")
 			{
 				glm::vec3 amb;
 				iss >> tag >> amb.x >> amb.y >> amb.z;
+				models->at(modelCount).material.ambient = amb;
+			}
+			if (tag == "diffuse")
+			{
+				glm::vec3 diff;
+				iss >> tag >> diff.x >> diff.y >> diff.z;
+				models->at(modelCount).material.diffuse = diff;
+			}
+			if (tag == "specular")
+			{
+				glm::vec3 spec;
+				iss >> tag >> spec.x >> spec.y >> spec.z;
+				models->at(modelCount).material.specular = spec;
+			}			
+			if (tag == "shininess")
+			{
+				float shin;
+				iss >> tag >> shin;
+				models->at(modelCount).material.shininess = shin;
+			}
+			if (tag == "s")
+			{
+				glm::vec3 scale;
+				iss >> tag >> scale.x >> scale.y >> scale.z;
+				models->at(modelCount).modelMatrix = glm::scale(models->at(modelCount).modelMatrix, scale);
+			}
+			if (tag == "r")
+			{
+				glm::vec3 rot;
+				float rad;
+				iss >> tag >> rot.x >> rot.y >> rot.z >> rad;
+				models->at(modelCount).modelMatrix = glm::rotate(models->at(modelCount).modelMatrix, rad, rot);
+			}
+			if (tag == "t")
+			{
+				glm::vec3 trans;
+				iss >> tag >> trans.x >> trans.y >> trans.z;
+				models->at(modelCount).modelMatrix = glm::translate(models->at(modelCount).modelMatrix, trans);
 			}
 		}
 		iss.clear();

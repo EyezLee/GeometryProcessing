@@ -34,7 +34,7 @@ struct Mesh
 
 struct Model
 {
-	string name;
+	//string name;
 	Mesh* meshSource;
 	Material material;
 	glm::mat4 modelMatrix;
