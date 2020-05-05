@@ -137,7 +137,6 @@ int main()
 	{
 		processInput(window);
 
-		glm::vec3 cameraPos;
 		scene.camera = camera.GetCameraMatrix();
 		shaderProgram.SetMat4("camera", scene.camera);
 
@@ -199,7 +198,7 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 		firstMouse = false;
 	}
 	double xOffset = xPos - lastCursorX;
-	double yOffset = yPos - lastCursorY;
+	double yOffset = lastCursorY - yPos;
 	lastCursorX = xPos;
 	lastCursorY = yPos;
 
