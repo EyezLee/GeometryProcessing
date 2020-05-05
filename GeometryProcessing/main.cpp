@@ -11,10 +11,13 @@ using namespace std;
 // ultilities variables
 int SCR_WIDTH = 800;
 int SCR_HEIGHT = 600;
+bool firstMouse = true;
+double lastCursorX = SCR_WIDTH / 2, lastCursorY = SCR_HEIGHT / 2;
 
 // ultilities func
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
 // vertices for testing
 //float vertices[] =
@@ -90,6 +93,8 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // tell glfw to capture mouse
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	// config glad function pointers of OpenGL
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -183,4 +188,21 @@ void processInput(GLFWwindow* window)
 		camera.processKeyboard(RIGHT);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		camera.processKeyboard(LEFT);
+}
+
+void mouse_callback(GLFWwindow* window, double xPos, double yPos)
+{
+	if (firstMouse)
+	{
+		lastCursorX = xPos;
+		lastCursorY = yPos;
+		firstMouse = false;
+	}
+	double xOffset = xPos - lastCursorX;
+	double yOffset = yPos - lastCursorY;
+	lastCursorX = xPos;
+	lastCursorY = yPos;
+
+	// update camera matrix
+	camera.processMouseMovement(xOffset, yOffset);
 }

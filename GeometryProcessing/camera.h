@@ -31,7 +31,7 @@ public:
 		CalculateUpandFront();
 	}
 
-	void processMouseMovement(float xOffset, float yOffset, bool rangeLock)
+	void processMouseMovement(float xOffset, float yOffset, bool rangeLock = true)
 	{
 		m_yaw += xOffset * m_rotateSpeed;
 		m_pitch += yOffset * m_rotateSpeed;
