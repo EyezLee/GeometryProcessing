@@ -4,6 +4,7 @@
 
 #include <../../parse.h>
 #include <../../GeometryProcessing/shader.h>
+#include <../../camera.h>
 // namespace 
 using namespace std;
 
@@ -69,6 +70,7 @@ void processInput(GLFWwindow* window);
 
 // scene data
 Scene scene;
+Camera camera(glm::vec3(0, 0, 3));
 
 int main()
 {
@@ -99,6 +101,12 @@ int main()
 	string scenePath = "../src/hw5/scene_cube1.txt";
 	ParseScene(&scene, scenePath);
 
+
+	// prepare shader program
+	string vertexPath = "../src/shaders/default.vs";
+	string fragmentPath = "../src/shaders/default.fs";
+	Shader shaderProgram(vertexPath, fragmentPath);
+
 	// VAO container: VBO + EBO + vertex attributes operation
 	GLuint VAO; // vertex array object
 	glGenVertexArrays(1, &VAO);
@@ -112,30 +120,33 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, scene.meshMap.begin()->second.indices.size() * sizeof(GLuint), &scene.meshMap.begin()->second.indices[0], GL_STATIC_DRAW);
 
-	// prepare shader program
-	string vertexPath = "../src/shaders/default.vs";
-	string fragmentPath = "../src/shaders/default.fs";
-	Shader shaderProgram(vertexPath, fragmentPath);
 	// bind vertex to shader
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	shaderProgram.UseShader(); // need to install shader program object first
-	glm::mat4 tempModel = glm::mat4(1.0f);
-	tempModel = glm::rotate(tempModel, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	shaderProgram.SetMat4("model", tempModel);
-	shaderProgram.SetMat4("camera", scene.camera);
 	shaderProgram.SetMat4("projection", scene.projection);
 
 	// render loop
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
+
+		glm::vec3 cameraPos;
+		scene.camera = camera.GetCameraMatrix();
+		shaderProgram.SetMat4("camera", scene.camera);
+
 		glClearColor(0, 0, 1, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// active shader program
 		shaderProgram.UseShader();
+
+		for (int i = 0; i < scene.models.size(); i++)
+		{
+			shaderProgram.SetMat4("model", scene.models[i].modelMatrix);
+		}
+
 		// bind VAO
 		glBindVertexArray(VAO);
 		// draw
@@ -162,4 +173,14 @@ void processInput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+
+	// camera movements
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.processKeyboard(FORWARD);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.processKeyboard(BACKWARD);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.processKeyboard(RIGHT);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.processKeyboard(LEFT);
 }

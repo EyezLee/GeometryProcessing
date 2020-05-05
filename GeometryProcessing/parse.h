@@ -12,7 +12,7 @@
 
 using namespace std;
 
-using mesh_map = std::map<string, Mesh>;
+//using mesh_map = std::map<string, Mesh>;
 void ParseCameraandProjection(stringstream* scnFile, string line, glm::mat4* cam, glm::mat4* proj);
 void ParseLight(stringstream* scnFile, light_t* lits, string line);
 void ParseObj(stringstream* scnFile, string line, mesh_map* meshMap);
@@ -166,7 +166,7 @@ void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* mod
 	while (line.size() > 0)
 	{
 		string name;
-		if (meshMap->find(line) != meshMap->cend())
+		if (meshMap->find(line) != meshMap->cend()) // if find name of the mesh in meshmap
 		{
 			name = line;
 			numModel++;

@@ -14,7 +14,7 @@ using namespace std;
 class Shader
 {
 public:
-	GLuint shaderID;
+	GLuint m_shaderID;
 
 	// build shader and program object
 	Shader(string vertexPath, string fragmentPath)
@@ -56,11 +56,11 @@ public:
 		CheckShaderProgram(fragmentShader, "FRAGMENT");
 
 		// create and link shader program
-		shaderID = glCreateProgram();
-		glAttachShader(shaderID, vertexShader);
-		glAttachShader(shaderID, fragmentShader);
-		glLinkProgram(shaderID);
-		CheckShaderProgram(shaderID, "PROGRAM");
+		m_shaderID = glCreateProgram();
+		glAttachShader(m_shaderID, vertexShader);
+		glAttachShader(m_shaderID, fragmentShader);
+		glLinkProgram(m_shaderID);
+		CheckShaderProgram(m_shaderID, "PROGRAM");
 
 		// delete shaders
 		glDeleteShader(vertexShader);
@@ -70,13 +70,13 @@ public:
 	// set data
 	void SetMat4(string name, glm::mat4 &value)
 	{
-		glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(m_shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
 	}
 
 	// use program
 	void UseShader()
 	{
-		glUseProgram(shaderID);
+		glUseProgram(m_shaderID);
 	}
 
 private:
@@ -86,7 +86,7 @@ private:
 		{
 			GLint success;
 			char infoLog[1024];
-			glGetProgramiv(shaderID, GL_COMPILE_STATUS, &success);
+			glGetProgramiv(m_shaderID, GL_COMPILE_STATUS, &success);
 			if (!success)
 			{
 				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
