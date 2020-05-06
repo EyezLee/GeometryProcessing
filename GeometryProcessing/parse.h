@@ -102,7 +102,7 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 		currMesh.normals.push_back(glm::vec3(0, 0, 0)); // also shift normal 
 
 		// enter into obj file
-		string fullPath = "../src/hw5/" + objPath;
+		string fullPath = "../src/sceneData/" + objPath;
 		ifstream objFile;
 		stringstream objStream;
 		objFile.exceptions(ifstream::badbit | ifstream::failbit);

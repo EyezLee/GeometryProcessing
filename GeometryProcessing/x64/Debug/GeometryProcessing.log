@@ -4,7 +4,7 @@ D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(250,20): warning C4018
 D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(40,29): warning C4101: 'e': unreferenced local variable
 D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(21,30): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(22,28): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(170,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(219,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(219,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(172,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(221,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(221,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe

@@ -104,7 +104,7 @@ int main()
 	}
 	glEnable(GL_DEPTH_TEST);
 
-	string scenePath = "../src/hw5/scene_cube1.txt";
+	string scenePath = "../src/sceneData/scene_bunny1.txt";
 	ParseScene(&scene, scenePath);
 
 
@@ -144,6 +144,8 @@ int main()
 	shaderProgram.SetVec3("specularCol", scene.models[0].material.specular);
 	shaderProgram.SetFloat("shininess", scene.models[0].material.shininess);
 	shaderProgram.SetVec3("cameraPos", camera.m_position);
+	glm::mat3 modelNorm = glm::mat3(glm::transpose(glm::inverse(scene.models[0].modelMatrix)));
+	shaderProgram.SetMat3("modelNorm", modelNorm);
 
 
 	// render loop

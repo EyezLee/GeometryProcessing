@@ -77,6 +77,11 @@ public:
 		glUniform3fv(glGetUniformLocation(m_shaderID, name.c_str()), 1, &value[0]);
 	}
 
+	void SetMat3(string name, glm::mat3& value)
+	{
+		glUniformMatrix3fv(glGetUniformLocation(m_shaderID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+	}
+
 	// set data
 	void SetMat4(string name, glm::mat4 &value)
 	{
