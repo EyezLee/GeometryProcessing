@@ -42,10 +42,10 @@ public:
 				m_pitch = -89;
 			if (m_pitch > 89)
 				m_pitch = 89;
-			if (m_yaw < -89)
-				m_yaw = -89;
-			if (m_yaw > 89)
-				m_yaw = 89;
+			if (m_yaw < -179)
+				m_yaw = -179;
+			if (m_yaw > 179)
+				m_yaw = 179;
 		}
 		CalculateUpandFront();
 	}

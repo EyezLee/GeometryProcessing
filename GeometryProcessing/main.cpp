@@ -138,13 +138,20 @@ int main()
 	shaderProgram.UseShader(); // need to install shader program object first
 	shaderProgram.SetMat4("projection", scene.projection);
 	shaderProgram.SetVec3("lightPos", scene.lights[0].pos);
+	shaderProgram.SetVec3("lightCol", scene.lights[0].col);
 	shaderProgram.SetVec3("diffuseCol", scene.models[0].material.diffuse);
+	shaderProgram.SetVec3("ambientCol", scene.models[0].material.ambient);
+	shaderProgram.SetVec3("specularCol", scene.models[0].material.specular);
+	shaderProgram.SetFloat("shininess", scene.models[0].material.shininess);
+	shaderProgram.SetVec3("cameraPos", camera.m_position);
+
+
 	// render loop
 	while (!glfwWindowShouldClose(window))
-	{
+	{ 
 		processInput(window);
 
-		glClearColor(0, 0, 1, 1);
+		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// active shader program

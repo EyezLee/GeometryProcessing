@@ -66,9 +66,15 @@ public:
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
+
+	void SetFloat(string name, float value)
+	{
+		glUniform1f(glGetUniformLocation(m_shaderID, name.c_str()), value);
+	}
+
 	void SetVec3(string name, glm::vec3& value)
 	{
-		glUniform3fv(glGetUniformLocation(m_shaderID, name.c_str()), 3, &value[0]);
+		glUniform3fv(glGetUniformLocation(m_shaderID, name.c_str()), 1, &value[0]);
 	}
 
 	// set data

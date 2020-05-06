@@ -13,5 +13,6 @@ void main()
 {
 	gl_Position = projection *  camera * model * vec4(pos, 1.0f);
 	FragPos = vec3(model * vec4(pos, 1.0));
-	normal = mat3(transpose(inverse(model))) * norm;
+	//normal = mat3(transpose(inverse(model))) * norm;
+	normal = normalize(norm);
 }
