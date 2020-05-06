@@ -99,6 +99,7 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 
 		Mesh currMesh;
 		currMesh.vertices.push_back(glm::vec3(0, 0, 0)); // shift to match indices which start at 1
+		currMesh.normals.push_back(glm::vec3(0, 0, 0)); // also shift normal 
 
 		// enter into obj file
 		string fullPath = "../src/hw5/" + objPath;
@@ -110,7 +111,7 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 			objFile.open(fullPath, ifstream::in);
 			objStream << objFile.rdbuf();
 			objFile.close();
-			cout << objStream.str() << endl;
+			//cout << objStream.str() << endl;
 		}
 		catch (ifstream::failure e)
 		{
@@ -234,11 +235,34 @@ void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* mod
 }
 
 // parse vertices data from scene.models to vbo
-//using VBO = vector<float>;
-//VBO ParsetoVBO(Model* model)
-//{
-//	VBO thisVBO;
-//
-//}
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texCoord;
+};
+using vbo_t = vector<Vertex>;
+
+vbo_t SorttoVBO(Model* model)
+{
+	vbo_t currVBO;
+	GLuint indicesNum = model->meshSource->indices.size();
+	for (int i = 0; i < indicesNum; i++)
+	{
+		Vertex currVertex;
+		// push back vertex position data first
+		GLuint vertexIndex = model->meshSource->indices[i];
+		currVertex.position = model->meshSource->vertices[vertexIndex];
+		// push back normal data for per vertex
+		GLuint normalIndex = model->meshSource->normIndices[i];
+		currVertex.normal = model->meshSource->normals[normalIndex];
+
+		// set temp texCoord
+		currVertex.texCoord = glm::vec2(1, 1);
+		currVBO.push_back(currVertex);
+	}
+
+	return currVBO;
+}
 
 #endif // !PARSER_H
