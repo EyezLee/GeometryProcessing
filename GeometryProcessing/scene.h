@@ -30,6 +30,7 @@ struct Mesh
 	vector<glm::vec3> vertices;
 	vector<glm::vec3> normals;
 	vector<GLuint> indices;
+	vector<GLuint> normIndices;
 	vector<glm::vec2> texCoords;
 };
 

@@ -137,14 +137,13 @@ int main()
 	{
 		processInput(window);
 
-		scene.camera = camera.GetCameraMatrix();
-		shaderProgram.SetMat4("camera", scene.camera);
-
 		glClearColor(0, 0, 1, 1);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// active shader program
 		shaderProgram.UseShader();
+		scene.camera = camera.GetCameraMatrix();
+		shaderProgram.SetMat4("camera", scene.camera);
 
 		for (int i = 0; i < scene.models.size(); i++)
 		{

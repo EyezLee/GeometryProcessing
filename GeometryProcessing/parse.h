@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <vector>
 
 #include <../../scene.h>
 
@@ -109,7 +110,7 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 			objFile.open(fullPath, ifstream::in);
 			objStream << objFile.rdbuf();
 			objFile.close();
-			//cout << objStream.str() << endl;
+			cout << objStream.str() << endl;
 		}
 		catch (ifstream::failure e)
 		{
@@ -152,6 +153,9 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 				currMesh.indices.push_back(vertexIndices[0]);
 				currMesh.indices.push_back(vertexIndices[1]);
 				currMesh.indices.push_back(vertexIndices[2]);
+				currMesh.normIndices.push_back(normalIndices[0]);
+				currMesh.normIndices.push_back(normalIndices[1]);
+				currMesh.normIndices.push_back(normalIndices[2]);
 				// parse normal indices when neccessary...
 			}
 			iss.clear();
@@ -228,5 +232,13 @@ void ParseMatirialandWorldTrans(stringstream* scnFile, string line, model_t* mod
 		iss.clear();
 	}
 }
+
+// parse vertices data from scene.models to vbo
+//using VBO = vector<float>;
+//VBO ParsetoVBO(Model* model)
+//{
+//	VBO thisVBO;
+//
+//}
 
 #endif // !PARSER_H
