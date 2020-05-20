@@ -35,5 +35,11 @@
     <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="he\halfedge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="he\structs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -146,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="he\halfedge.h" />
+    <ClInclude Include="he\structs.h" />
     <ClInclude Include="parse.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />

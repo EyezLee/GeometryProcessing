@@ -5,6 +5,7 @@
 #include <../../parse.h>
 #include <../../GeometryProcessing/shader.h>
 #include <../../camera.h>
+#include <../../he/halfedge.h>
 // namespace 
 using namespace std;
 
@@ -18,58 +19,6 @@ double lastCursorX = SCR_WIDTH / 2, lastCursorY = SCR_HEIGHT / 2;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
-
-// vertices for testing
-//float vertices[] =
-//{
-//	-0.5f, -0.5f, -0.5f, 
-//	0.5f, -0.5f, -0.5f,  
-//	0.5f,  0.5f, -0.5f,  
-//	0.5f,  0.5f, -0.5f,  
-//	-0.5f,  0.5f, -0.5f, 
-//	-0.5f, -0.5f, -0.5f, 
-//
-//	-0.5f, -0.5f,  0.5f, 
-//	0.5f, -0.5f,  0.5f,  
-//	0.5f,  0.5f,  0.5f,  
-//	0.5f,  0.5f,  0.5f,  
-//	-0.5f,  0.5f,  0.5f, 
-//	-0.5f, -0.5f,  0.5f, 
-//
-//	-0.5f,  0.5f,  0.5f, 
-//	-0.5f,  0.5f, -0.5f, 
-//	-0.5f, -0.5f, -0.5f, 
-//	-0.5f, -0.5f, -0.5f, 
-//	-0.5f, -0.5f,  0.5f, 
-//	-0.5f,  0.5f,  0.5f, 
-//
-//	0.5f,  0.5f,  0.5f,  
-//	0.5f,  0.5f, -0.5f,  
-//	0.5f, -0.5f, -0.5f,  
-//	0.5f, -0.5f, -0.5f,  
-//	0.5f, -0.5f,  0.5f,  
-//	0.5f,  0.5f,  0.5f,  
-//
-//	-0.5f, -0.5f, -0.5f, 
-//	0.5f, -0.5f, -0.5f,  
-//	0.5f, -0.5f,  0.5f,  
-//	0.5f, -0.5f,  0.5f,  
-//	-0.5f, -0.5f,  0.5f, 
-//	-0.5f, -0.5f, -0.5f, 
-//
-//	-0.5f,  0.5f, -0.5f, 
-//	0.5f,  0.5f, -0.5f,  
-//	0.5f,  0.5f,  0.5f,  
-//	0.5f,  0.5f,  0.5f,  
-//	-0.5f,  0.5f,  0.5f, 
-//	-0.5f,  0.5f, -0.5f, 
-//};
-//
-//int index[] =
-//{
-//	1, 0, 2,
-//	1, 3, 2
-//};
 
 // scene data
 Scene scene;
