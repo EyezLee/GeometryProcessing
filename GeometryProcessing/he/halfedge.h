@@ -294,8 +294,8 @@ static bool build_HE(he::Mesh_Data *mesh,
                      std::vector<HEV*> *hevs,
                      std::vector<HEF*> *hefs)
 {
-    std::vector<he::Vertex*> *vertices = mesh->vertices;
-    std::vector<he::Face*> *faces = mesh->faces;
+    std::vector<glm::vec3*> *vertices = mesh->vertices;
+    std::vector<glm::vec3*> *faces = mesh->faces;
 
     hevs->push_back(NULL);
     std::map<std::pair<int, int>, HE*> edge_hash;
@@ -318,7 +318,7 @@ static bool build_HE(he::Mesh_Data *mesh,
     
     for (int i = 0; i < num_faces; ++i)
     {
-        he::Face *f = faces->at(i);
+        glm::vec3 *f = faces->at(i);
 
         HE *e1 = new HE;
         HE *e2 = new HE;
@@ -341,17 +341,17 @@ static bool build_HE(he::Mesh_Data *mesh,
         e2->next = e3;
         e3->next = e1;
 
-        e1->vertex = hevs->at(f->idx1);
-        e2->vertex = hevs->at(f->idx2);
-        e3->vertex = hevs->at(f->idx3);
+        e1->vertex = hevs->at(f->x);
+        e2->vertex = hevs->at(f->y);
+        e3->vertex = hevs->at(f->z);
 
-        hevs->at(f->idx1)->out = e1;
-        hevs->at(f->idx2)->out = e2;
-        hevs->at(f->idx3)->out = e3;
+        hevs->at(f->x)->out = e1;
+        hevs->at(f->y)->out = e2;
+        hevs->at(f->z)->out = e3;
 
-        hash_edge(edge_hash, get_edge_key(f->idx1, f->idx2), e1);
-        hash_edge(edge_hash, get_edge_key(f->idx2, f->idx3), e2);
-        hash_edge(edge_hash, get_edge_key(f->idx3, f->idx1), e3);
+        hash_edge(edge_hash, get_edge_key(f->x, f->y), e1);
+        hash_edge(edge_hash, get_edge_key(f->y, f->z), e2);
+        hash_edge(edge_hash, get_edge_key(f->z, f->x), e3);
 
         hefs->push_back(hef);
 

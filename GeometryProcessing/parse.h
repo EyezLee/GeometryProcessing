@@ -147,16 +147,12 @@ void ParseObj(stringstream* sceneFile, string line, mesh_map* meshMap)
 			{
 				std::replace(objLine.begin(), objLine.end(), '/', ' ');
 				iss.str(objLine);
-				GLuint vertexIndices[3], normalIndices[3];
-				iss >> initial >> vertexIndices[0] >> normalIndices[0]
-					>> vertexIndices[1] >> normalIndices[1]
-					>> vertexIndices[2] >> normalIndices[2];
-				currMesh.indices.push_back(vertexIndices[0]);
-				currMesh.indices.push_back(vertexIndices[1]);
-				currMesh.indices.push_back(vertexIndices[2]);
-				currMesh.normIndices.push_back(normalIndices[0]);
-				currMesh.normIndices.push_back(normalIndices[1]);
-				currMesh.normIndices.push_back(normalIndices[2]);
+				glm::vec3 vertexIndices, normalIndices;
+				iss >> initial >> vertexIndices.x >> normalIndices.x
+					>> vertexIndices.y >> normalIndices.y
+					>> vertexIndices.z >> normalIndices.z;
+				currMesh.indices.push_back(vertexIndices);
+				currMesh.normIndices.push_back(normalIndices);
 				// parse normal indices when neccessary...
 			}
 			iss.clear();
@@ -250,16 +246,20 @@ vbo_t SorttoVBO(Model* model)
 	for (int i = 0; i < indicesNum; i++)
 	{
 		Vertex currVertex;
-		// push back vertex position data first
-		GLuint vertexIndex = model->meshSource->indices[i];
-		currVertex.position = model->meshSource->vertices[vertexIndex];
-		// push back normal data for per vertex
-		GLuint normalIndex = model->meshSource->normIndices[i];
-		currVertex.normal = model->meshSource->normals[normalIndex];
+		for (int idx = 0; idx < 3; idx++)
+		{
+			// push back vertex position data first
+			GLuint vertexIndex = model->meshSource->indices[i][idx];
+			currVertex.position = model->meshSource->vertices[vertexIndex];
+			// push back normal data for per vertex
+			GLuint normalIndex = model->meshSource->normIndices[i][idx];
+			currVertex.normal = model->meshSource->normals[normalIndex];
 
-		// set temp texCoord
-		currVertex.texCoord = glm::vec2(1, 1);
-		currVBO.push_back(currVertex);
+			currVBO.push_back(currVertex);
+
+			// set temp texCoord
+			currVertex.texCoord = glm::vec2(1, 1);
+		}
 	}
 
 	return currVBO;

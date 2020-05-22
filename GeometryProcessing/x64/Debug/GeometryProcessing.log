@@ -1,11 +1,81 @@
 ﻿  main.cpp
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(249,55): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(250,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(245,55): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(246,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(252,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(255,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
+          with
+          [
+              T=float
+          ]
 D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(40,29): warning C4101: 'e': unreferenced local variable
 D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(21,30): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(22,28): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(303,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(317,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(344,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(345,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(346,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(348,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(349,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(350,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(352,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(352,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(353,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(353,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(354,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(354,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(370,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(371,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(121,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
