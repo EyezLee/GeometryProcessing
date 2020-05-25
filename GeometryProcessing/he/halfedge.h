@@ -280,14 +280,77 @@ static bool orient_flip_face(HE *edge)
 
     return check_face(face) && orient_face(face);
 }
-
+// return check_face(0) && check_face(1) && 1
 static bool orient_face(HEF *face)
 {
     assert(face->oriented);
-    return orient_flip_face(face->edge)
-           && orient_flip_face(face->edge->next)
-           && orient_flip_face(face->edge->next->next)
-           && check_face(face);
+
+    HE* triEdge = face->edge;
+    bool triangleEdge = true;
+    for (int i = 0; i < 2; i++)
+    {
+        HE* currEdge = triEdge;
+        bool orientFlipFace, checkFace = true;
+        while (currEdge->flip != NULL && !currEdge->flip->face->oriented)
+        {
+            HEF* flipFace = currEdge->flip->face;
+
+            if (!check_flip(currEdge))
+            {
+                HEV* v1 = flipFace->edge->vertex;
+                HEV* v2 = flipFace->edge->next->vertex;
+                HEV* v3 = flipFace->edge->next->next->vertex;
+
+                assert(v1 != v2 && v1 != v3 && v2 != v3);
+
+                HE* e3 = flipFace->edge;
+                HE* e1 = flipFace->edge->next;
+                HE* e2 = flipFace->edge->next->next;
+
+                assert(e3->vertex == v1);
+                assert(e1->vertex == v2);
+                assert(e2->vertex == v3);
+
+                e3->vertex = v3;
+                e3->next = e2;
+
+                e1->vertex = v1;
+                e1->next = e3;
+
+                e2->vertex = v2;
+                e2->next = e1;
+
+                v1->out = e3;
+                v2->out = e1;
+                v3->out = e2;
+
+                assert(flipFace->edge->next->next->next == flipFace->edge);
+            }
+
+            flipFace->oriented = 1;
+
+            assert(check_flip(currEdge));
+            assert(check_face(flipFace));
+
+            bool checkCurrFace = check_face(flipFace);
+            if (checkCurrFace == false)
+                checkFace == false;
+
+            currEdge = flipFace->edge;
+        }
+
+        if (currEdge->flip == NULL)
+            orientFlipFace = true;
+        else if (currEdge->flip->face->oriented)
+            orientFlipFace = check_face(currEdge->flip->face);
+
+        if (!orientFlipFace || !checkFace)
+            triangleEdge = false;
+
+        triEdge = triEdge->next;
+    }
+
+    return triangleEdge && check_face(face);
 }
 
 static bool build_HE(he::Mesh_Data *mesh,

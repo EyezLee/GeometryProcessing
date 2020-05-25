@@ -56,6 +56,17 @@ int main()
 	string scenePath = "../src/sceneData/scene_bunny1.txt";
 	ParseScene(&scene, scenePath);
 
+	// half edge mesh data
+	he::Mesh_Data* meshData = new he::Mesh_Data();
+	int indexNum = scene.models[0].meshSource->indices.size();
+	for (int i = 0; i < indexNum; i++)
+		meshData->faces->push_back(&(scene.models[0].meshSource->indices[i]));
+	int vertexNum = scene.models[0].meshSource->vertices.size();
+	for (int i = 0; i < vertexNum; i++)
+		meshData->vertices->push_back(&(scene.models[0].meshSource->vertices[i]));
+	vector<HEF*>* hef = new vector<HEF*>;
+	vector<HEV*>* hev = new vector<HEV*>;
+	bool success = build_HE(meshData, hev, hef);
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/phongShading.vs";
@@ -127,6 +138,8 @@ int main()
 
 	// terminte program
 	glfwTerminate();
+	//delete meshData;
+	//meshData = nullptr;
 	return 0;
 }
 

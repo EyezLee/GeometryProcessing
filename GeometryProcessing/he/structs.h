@@ -21,22 +21,19 @@ namespace he
         int idx1, idx2, idx3;
     };
 
-    struct Mesh_Data
+    class Mesh_Data
     {
-        std::vector <glm::vec3*> * vertices;
-        std::vector<glm::vec3*>* faces;
-    };
+    public:
 
-    //he::Mesh_Data MakeMeshData(Mesh* meshSource)
-    //{
-    //    he::Mesh_Data meshData;
-    //    int vertNum = meshSource->vertices.size();
-    //    for (int i = 0; i < vertNum; i++)
-    //    {
-    //        meshData.vertices->push_back(&meshSource->vertices[i]);
-    //        meshData.faces->push_back(&meshSource->indices[i]);
-    //    }
-    //    return meshData;
-    //}
+        std::vector <glm::vec3*>* vertices;
+        std::vector<glm::vec3*>* faces;
+
+        Mesh_Data()
+        {
+            vertices = new std::vector<glm::vec3*>;
+            faces = new std::vector<glm::vec3*>;
+        }
+
+    };
 }
 #endif
