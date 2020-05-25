@@ -67,6 +67,30 @@ int main()
 	vector<HEF*>* hef = new vector<HEF*>;
 	vector<HEV*>* hev = new vector<HEV*>;
 	bool success = build_HE(meshData, hev, hef);
+	for (int i = 0; i < hev->size(); i++)
+	{
+		HE* he = hev->at(i)->out;
+		glm::vec3 normal;
+		do 
+		{
+			HEF* f = he->face;
+			HEV* v0 = f->edge->vertex;
+			HEV* v1 = f->edge->next->vertex;
+			HEV* v2 = f->edge->next->next->vertex;
+
+			glm::vec3 faceNormal = glm::cross(glm::vec3(v1->x - v0->x, v1->y - v0->y, v1->z - v0->z),
+												glm::vec3(v2->x - v0->x, v2->y - v0->y, v2->z - v0->z));
+			float faceArea = glm::length(faceNormal) / 2; // triangle area = cross product * 1/2
+			normal += faceNormal * faceArea; // area wight normal
+
+			// next edge
+			he = he->flip->next;
+		} 
+		while (hev->at(i)->out);
+		
+		// normalize normal
+		normal = glm::normalize(normal);
+	}
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/phongShading.vs";
