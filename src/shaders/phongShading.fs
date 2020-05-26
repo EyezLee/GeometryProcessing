@@ -40,4 +40,6 @@ void main()
 	// phong shading formula
 	vec3 color = (material.ambientCol + diffuse + specular) * light.lightCol; 
 	FragColor = vec4(color, 1.0f);
+
+
 }

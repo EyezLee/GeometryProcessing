@@ -79,9 +79,11 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(415,44): warning
           ]
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(431,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(432,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(61,59): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(64,61): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(158,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(209,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(209,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(63,59): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(66,61): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(161,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(212,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(212,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(219,37): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(220,20): warning C4018: '<': signed/unsigned mismatch
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe

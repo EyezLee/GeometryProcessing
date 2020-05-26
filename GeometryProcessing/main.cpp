@@ -20,6 +20,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
+vbo_t HEVtoVBO(vector<HEV*>* hev, vector<glm::vec3>* indices);
+
 // scene data
 Scene scene;
 Camera camera(glm::vec3(0, 0, 3));
@@ -53,7 +55,7 @@ int main()
 	}
 	glEnable(GL_DEPTH_TEST);
 
-	string scenePath = "../src/sceneData/scene_cube1.txt";
+	string scenePath = "../src/sceneData/scene_bunny1.txt";
 	ParseScene(&scene, scenePath);
 
 	// half edge mesh data
@@ -72,7 +74,7 @@ int main()
 	for (int i = 1; i < hev->size(); i++)
 	{
 		HE* he = hev->at(i)->out;
-		glm::vec3 normal;
+		glm::vec3 normal = glm::vec3(0, 0, 0);
 		do 
 		{
 			HEF* f = he->face;
@@ -82,7 +84,7 @@ int main()
 
 			glm::vec3 faceNormal = glm::cross(v1->position - v0->position, v2->position - v0->position);
 			float faceArea = glm::length(faceNormal) / 2; // triangle area = cross product * 1/2
-			normal += faceNormal * faceArea; // area wight normal
+			normal += faceNormal * faceArea; // area weight normal
 
 			// next edge
 			he = he->flip->next;
@@ -93,10 +95,11 @@ int main()
 		normal = glm::normalize(normal);
 		hev->at(i)->normal = normal;
 	}
+	vbo_t heVbo = HEVtoVBO(hev, &scene.models[0].meshSource->indices);
 
 	// prepare shader program
-	string vertexPath = "../src/shaders/phongShading.vs";
-	string fragmentPath = "../src/shaders/phongShading.fs";
+	string vertexPath = "../src/shaders/gouraudShading.vs";
+	string fragmentPath = "../src/shaders/gouraudShading.fs";
 	Shader shaderProgram(vertexPath, fragmentPath);
 
 	// VAO container: VBO + EBO + vertex attributes operation
@@ -106,8 +109,8 @@ int main()
 	GLuint VBO; // vertex buffer object
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	vbo_t vboBuffer = SorttoVBO(&scene.models[0]);
-	glBufferData(GL_ARRAY_BUFFER, vboBuffer.size() * sizeof(Vertex), &vboBuffer[0], GL_STATIC_DRAW);
+	vbo_t vboBuffer = MeshtoVBO(&scene.models[0]);
+	glBufferData(GL_ARRAY_BUFFER, heVbo.size() * sizeof(Vertex), &heVbo[0], GL_STATIC_DRAW);
 
 	//GLuint EBO; // element buffer object
 	//glGenBuffers(1, &EBO);
@@ -207,4 +210,25 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 
 	// update camera matrix
 	camera.processMouseMovement(xOffset, yOffset);
+}
+
+vbo_t HEVtoVBO(vector<HEV*>* hev, vector<glm::vec3>* indices)
+{
+	vbo_t vbo;
+
+	GLuint indicesNum = indices->size();
+	for (int i = 0; i < indicesNum; i++)
+	{
+		for (int idx = 0; idx < 3; idx++)
+		{
+			int index = (int)(*indices)[i][idx];
+			Vertex vert;
+			vert.position = hev->at(index)->position;
+			vert.normal = hev->at(index)->normal;
+			vert.texCoord = glm::vec2(0, 0);
+			vbo.push_back(vert);
+		}
+	}
+
+	return vbo;
 }

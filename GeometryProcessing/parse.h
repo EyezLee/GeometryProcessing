@@ -239,7 +239,7 @@ struct Vertex
 };
 using vbo_t = vector<Vertex>;
 
-vbo_t SorttoVBO(Model* model)
+vbo_t MeshtoVBO(Model* model)
 {
 	vbo_t currVBO;
 	GLuint indicesNum = model->meshSource->indices.size();
@@ -264,5 +264,6 @@ vbo_t SorttoVBO(Model* model)
 
 	return currVBO;
 }
+
 
 #endif // !PARSER_H
