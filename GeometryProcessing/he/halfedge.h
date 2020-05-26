@@ -121,45 +121,7 @@
 #include <vector>
 
 //#include "structs.h"
-#include <../../he/structs.h>
-
-/* Halfedge structs */
-
-struct HE // HE for halfedge
-{
-    // the vertex that this halfedge comes out off
-    struct HEV *vertex;
-    // the face adjacent to this halfedge
-    struct HEF *face;
-    // the flip and next halfedge as described in the lecture notes
-    struct HE *flip, *next;
-
-    // we omit the pointer to the adjacent edge (as well as a "halfedge edge"
-    // struct) because it is not necessary for the assignment
-};
-
-struct HEF // HEF for halfedge face
-{
-    // the halfedge associated with this face
-    struct HE *edge;
-    // this variable is used to help orientate the halfedge when building it;
-    // you don't have to worry about this
-    bool oriented;
-};
-
-struct HEV // HEV for halfedge vertex
-{
-    // the coordinates of the vertex in the mesh
-    glm::vec3 position;
-    // the halfedge going out off this vertex
-    struct HE *out;
-    // use this to store your index for this vertex when you index the vertices
-    // before building the operator for implicit fairing
-    int index;
-    // you can use this to store the normal vector for the vertex
-    glm::vec3 normal;
-};
-
+#include <../../he/hestructs.h>
 /* After this point, the comments stop. You shouldn't really need to know the
  * details of the following functions to know how to use this halfedge implementation.
  */
@@ -167,22 +129,22 @@ struct HEV // HEV for halfedge vertex
 /* Function prototypes */
 
 static std::pair<int, int> get_edge_key(int x, int y);
-static void hash_edge(std::map<std::pair<int, int>, HE*> &edge_hash,
+static void hash_edge(std::map<std::pair<int, int>, he::HE*> &edge_hash,
                       std::pair<int, int> edge_key,
-                      HE *edge);
+                      he::HE *edge);
 
-static bool check_flip(HE *edge);
-static bool check_edge(HE *edge);
-static bool check_face(HEF *face);
+static bool check_flip(he::HE *edge);
+static bool check_edge(he::HE *edge);
+static bool check_face(he::HEF *face);
 
-static bool orient_flip_face(HE *edge);
-static bool orient_face(HEF *face);
+static bool orient_flip_face(he::HE *edge);
+static bool orient_face(he::HEF *face);
 
 static bool build_HE(he::Mesh_Data *mesh,
-                     std::vector<HEV*> *hevs,
-                     std::vector<HEF*> *hefs);
+                     std::vector<he::HEV*> *hevs,
+                     std::vector<he::HEF*> *hefs);
 
-static void delete_HE(std::vector<HEV*> *hevs, std::vector<HEF*> *hefs);
+static void delete_HE(std::vector<he::HEV*> *hevs, std::vector<he::HEF*> *hefs);
 
 /* Function implementations */
 
@@ -192,13 +154,13 @@ static std::pair<int, int> get_edge_key(int x, int y)
     return std::pair<int, int>(std::min(x, y), std::max(x, y));
 }
 
-static void hash_edge(std::map<std::pair<int, int>, HE*> &edge_hash,
+static void hash_edge(std::map<std::pair<int, int>, he::HE*> &edge_hash,
                      std::pair<int, int> edge_key,
-                     HE *edge)
+                     he::HE *edge)
 {
     if(edge_hash.count(edge_key) != 0)
     {
-        HE *flip = edge_hash[edge_key];
+        he::HE *flip = edge_hash[edge_key];
         flip->flip = edge;
         edge->flip = flip;
     }
@@ -206,17 +168,17 @@ static void hash_edge(std::map<std::pair<int, int>, HE*> &edge_hash,
         edge_hash[edge_key] = edge;
 }
 
-static bool check_flip(HE *edge)
+static bool check_flip(he::HE *edge)
 {
     return edge->flip == NULL || edge->flip->vertex != edge->vertex;
 }
 
-static bool check_edge(HE *edge)
+static bool check_edge(he::HE *edge)
 {
     return check_flip(edge) || !edge->face->oriented || !edge->flip->face->oriented;
 }
 
-static bool check_face(HEF *face)
+static bool check_face(he::HEF *face)
 {
     bool b1 = check_edge(face->edge);
     bool b2 = (face->edge->next != NULL) ? check_edge(face->edge->next) : 1;
@@ -230,28 +192,28 @@ static bool check_face(HEF *face)
     return b1 && b2 && b3;
 }
 
-static bool orient_flip_face(HE *edge)
+static bool orient_flip_face(he::HE *edge)
 {
     if(edge->flip == NULL)
         return 1;
 
-    HE *flip = edge->flip;
-    HEF *face = flip->face;
+    he::HE *flip = edge->flip;
+    he::HEF *face = flip->face;
 
     if(face->oriented)
         return check_face(face);
 
     if (!check_flip(edge))
     {
-        HEV *v1 = face->edge->vertex;
-        HEV *v2 = face->edge->next->vertex;
-        HEV *v3 = face->edge->next->next->vertex;
+        he::HEV *v1 = face->edge->vertex;
+        he::HEV *v2 = face->edge->next->vertex;
+        he::HEV *v3 = face->edge->next->next->vertex;
         
         assert(v1 != v2 && v1 != v3 && v2 != v3);
 
-        HE *e3 = face->edge;
-        HE *e1 = face->edge->next;
-        HE *e2 = face->edge->next->next;
+        he::HE *e3 = face->edge;
+        he::HE *e1 = face->edge->next;
+        he::HE *e2 = face->edge->next->next;
 
         assert(e3->vertex == v1);
         assert(e1->vertex == v2);
@@ -281,31 +243,31 @@ static bool orient_flip_face(HE *edge)
     return check_face(face) && orient_face(face);
 }
 // return check_face(0) && check_face(1) && 1
-static bool orient_face(HEF *face)
+static bool orient_face(he::HEF *face)
 {
     assert(face->oriented);
 
-    HE* triEdge = face->edge;
+    he::HE* triEdge = face->edge;
     bool triangleEdge = true;
     for (int i = 0; i < 2; i++)
     {
-        HE* currEdge = triEdge;
+        he::HE* currEdge = triEdge;
         bool orientFlipFace, checkFace = true;
         while (currEdge->flip != NULL && !currEdge->flip->face->oriented)
         {
-            HEF* flipFace = currEdge->flip->face;
+            he::HEF* flipFace = currEdge->flip->face;
 
             if (!check_flip(currEdge))
             {
-                HEV* v1 = flipFace->edge->vertex;
-                HEV* v2 = flipFace->edge->next->vertex;
-                HEV* v3 = flipFace->edge->next->next->vertex;
+                he::HEV* v1 = flipFace->edge->vertex;
+                he::HEV* v2 = flipFace->edge->next->vertex;
+                he::HEV* v3 = flipFace->edge->next->next->vertex;
 
                 assert(v1 != v2 && v1 != v3 && v2 != v3);
 
-                HE* e3 = flipFace->edge;
-                HE* e1 = flipFace->edge->next;
-                HE* e2 = flipFace->edge->next->next;
+                he::HE* e3 = flipFace->edge;
+                he::HE* e1 = flipFace->edge->next;
+                he::HE* e2 = flipFace->edge->next->next;
 
                 assert(e3->vertex == v1);
                 assert(e1->vertex == v2);
@@ -354,42 +316,42 @@ static bool orient_face(HEF *face)
 }
 
 static bool build_HE(he::Mesh_Data *mesh,
-                     std::vector<HEV*> *hevs,
-                     std::vector<HEF*> *hefs)
+                     std::vector<he::HEV*> *hevs,
+                     std::vector<he::HEF*> *hefs)
 {
-    std::vector<glm::vec3*> *vertices = mesh->vertices;
-    std::vector<glm::vec3*> *faces = mesh->faces;
+    std::vector<glm::vec3*> *vertices = mesh->m_vertices;
+    std::vector<glm::vec3*> *faces = mesh->m_faces;
 
     //hevs->push_back(NULL);
-    std::map<std::pair<int, int>, HE*> edge_hash;
+    std::map<std::pair<int, int>, he::HE*> edge_hash;
 
     int size_vertices = vertices->size();
 
     for(int i = 0; i < size_vertices; ++i)
     {
-        HEV *hev = new HEV;
+        he::HEV *hev = new he::HEV;
         hev->position = *vertices->at(i);
         hev->out = NULL;
 
         hevs->push_back(hev);
     }
 
-    HEF *first_face = NULL;
+    he::HEF *first_face = NULL;
     int num_faces = faces->size();
     
     for (int i = 0; i < num_faces; ++i)
     {
         glm::vec3 *f = faces->at(i);
 
-        HE *e1 = new HE;
-        HE *e2 = new HE;
-        HE *e3 = new HE;
+        he::HE *e1 = new he::HE;
+        he::HE *e2 = new he::HE;
+        he::HE *e3 = new he::HE;
 
         e1->flip = NULL;
         e2->flip = NULL;
         e3->flip = NULL;
 
-        HEF *hef = new HEF;
+        he::HEF *hef = new he::HEF;
 
         hef->oriented = 0;
         hef->edge = e1;
@@ -426,7 +388,7 @@ static bool build_HE(he::Mesh_Data *mesh,
     return orient_face(first_face);
 }
 
-static void delete_HE(std::vector<HEV*> *hevs, std::vector<HEF*> *hefs)
+static void delete_HE(std::vector<he::HEV*> *hevs, std::vector<he::HEF*> *hefs)
 {
     int hev_size = hevs->size();
     int num_hefs = hefs->size();
@@ -444,6 +406,56 @@ static void delete_HE(std::vector<HEV*> *hevs, std::vector<HEF*> *hefs)
 
     delete hevs;
     delete hefs;
+}
+
+void updata_HE_normal(vector<he::HEV*>* hev)
+{
+    // set normal for 0 index vertex
+    hev->at(0)->normal = glm::vec3(0, 0, 0);
+    for (int i = 1; i < hev->size(); i++)
+    {
+        he::HE* he = hev->at(i)->out;
+        glm::vec3 normal = glm::vec3(0, 0, 0);
+        do
+        {
+            he::HEF* f = he->face;
+            he::HEV* v0 = f->edge->vertex;
+            he::HEV* v1 = f->edge->next->vertex;
+            he::HEV* v2 = f->edge->next->next->vertex;
+
+            glm::vec3 faceNormal = glm::cross(v1->position - v0->position, v2->position - v0->position);
+            float faceArea = glm::length(faceNormal) / 2; // triangle area = cross product * 1/2
+            normal += faceNormal * faceArea; // area weight normal
+
+            // next edge
+            he = he->flip->next;
+        } while (he != hev->at(i)->out);
+
+        // normalize normal
+        normal = glm::normalize(normal);
+        hev->at(i)->normal = normal;
+    }
+}
+
+vbo_t HEVtoVBO(vector<he::HEV*>* hev, vector<glm::vec3>* indices)
+{
+    vbo_t vbo;
+
+    GLuint indicesNum = indices->size();
+    for (int i = 0; i < indicesNum; i++)
+    {
+        for (int idx = 0; idx < 3; idx++)
+        {
+            int index = (int)(*indices)[i][idx];
+            Vertex vert;
+            vert.position = hev->at(index)->position;
+            vert.normal = hev->at(index)->normal;
+            vert.texCoord = glm::vec2(0, 0);
+            vbo.push_back(vert);
+        }
+    }
+
+    return vbo;
 }
 
 #endif

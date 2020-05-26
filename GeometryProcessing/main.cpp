@@ -20,8 +20,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
-vbo_t HEVtoVBO(vector<HEV*>* hev, vector<glm::vec3>* indices);
-
 // scene data
 Scene scene;
 Camera camera(glm::vec3(0, 0, 3));
@@ -58,48 +56,17 @@ int main()
 	string scenePath = "../src/sceneData/scene_bunny1.txt";
 	ParseScene(&scene, scenePath);
 
-	// half edge mesh data
-	he::Mesh_Data* meshData = new he::Mesh_Data();
-	int indexNum = scene.models[0].meshSource->indices.size();
-	for (int i = 0; i < indexNum; i++)
-		meshData->faces->push_back(&(scene.models[0].meshSource->indices[i]));
-	int vertexNum = scene.models[0].meshSource->vertices.size();
-	for (int i = 0; i < vertexNum; i++)
-		meshData->vertices->push_back(&(scene.models[0].meshSource->vertices[i]));
-	vector<HEF*>* hef = new vector<HEF*>;
-	vector<HEV*>* hev = new vector<HEV*>;
+	// half edge
+	he::Mesh_Data* meshData = new he::Mesh_Data(scene.models[0].meshSource);
+	vector<he::HEF*>* hef = new vector<he::HEF*>;
+	vector<he::HEV*>* hev = new vector<he::HEV*>;
 	bool success = build_HE(meshData, hev, hef);
-	// set normal for 0 index vertex
-	hev->at(0)->normal = glm::vec3(0, 0, 0);
-	for (int i = 1; i < hev->size(); i++)
-	{
-		HE* he = hev->at(i)->out;
-		glm::vec3 normal = glm::vec3(0, 0, 0);
-		do 
-		{
-			HEF* f = he->face;
-			HEV* v0 = f->edge->vertex;
-			HEV* v1 = f->edge->next->vertex;
-			HEV* v2 = f->edge->next->next->vertex;
-
-			glm::vec3 faceNormal = glm::cross(v1->position - v0->position, v2->position - v0->position);
-			float faceArea = glm::length(faceNormal) / 2; // triangle area = cross product * 1/2
-			normal += faceNormal * faceArea; // area weight normal
-
-			// next edge
-			he = he->flip->next;
-		} 
-		while (he != hev->at(i)->out);
-		
-		// normalize normal
-		normal = glm::normalize(normal);
-		hev->at(i)->normal = normal;
-	}
+	updata_HE_normal(hev);
 	vbo_t heVbo = HEVtoVBO(hev, &scene.models[0].meshSource->indices);
 
 	// prepare shader program
-	string vertexPath = "../src/shaders/gouraudShading.vs";
-	string fragmentPath = "../src/shaders/gouraudShading.fs";
+	string vertexPath = "../src/shaders/phongShading.vs";
+	string fragmentPath = "../src/shaders/phongShading.fs";
 	Shader shaderProgram(vertexPath, fragmentPath);
 
 	// VAO container: VBO + EBO + vertex attributes operation
@@ -165,10 +132,9 @@ int main()
 		glfwPollEvents();
 	}
 
+	delete_HE(hev, hef);
 	// terminte program
 	glfwTerminate();
-	//delete meshData;
-	//meshData = nullptr;
 	return 0;
 }
 
@@ -210,25 +176,4 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 
 	// update camera matrix
 	camera.processMouseMovement(xOffset, yOffset);
-}
-
-vbo_t HEVtoVBO(vector<HEV*>* hev, vector<glm::vec3>* indices)
-{
-	vbo_t vbo;
-
-	GLuint indicesNum = indices->size();
-	for (int i = 0; i < indicesNum; i++)
-	{
-		for (int idx = 0; idx < 3; idx++)
-		{
-			int index = (int)(*indices)[i][idx];
-			Vertex vert;
-			vert.position = hev->at(index)->position;
-			vert.normal = hev->at(index)->normal;
-			vert.texCoord = glm::vec2(0, 0);
-			vbo.push_back(vert);
-		}
-	}
-
-	return vbo;
 }

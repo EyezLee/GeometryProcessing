@@ -38,7 +38,7 @@
     <ClInclude Include="he\halfedge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="he\structs.h">
+    <ClInclude Include="he\hestructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
