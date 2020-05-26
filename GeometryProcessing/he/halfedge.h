@@ -150,14 +150,14 @@ struct HEF // HEF for halfedge face
 struct HEV // HEV for halfedge vertex
 {
     // the coordinates of the vertex in the mesh
-    double x, y, z;
+    glm::vec3 position;
     // the halfedge going out off this vertex
     struct HE *out;
     // use this to store your index for this vertex when you index the vertices
     // before building the operator for implicit fairing
     int index;
     // you can use this to store the normal vector for the vertex
-    he::Vec3f normal;
+    glm::vec3 normal;
 };
 
 /* After this point, the comments stop. You shouldn't really need to know the
@@ -360,17 +360,15 @@ static bool build_HE(he::Mesh_Data *mesh,
     std::vector<glm::vec3*> *vertices = mesh->vertices;
     std::vector<glm::vec3*> *faces = mesh->faces;
 
-    hevs->push_back(NULL);
+    //hevs->push_back(NULL);
     std::map<std::pair<int, int>, HE*> edge_hash;
 
     int size_vertices = vertices->size();
 
-    for(int i = 1; i < size_vertices; ++i)
+    for(int i = 0; i < size_vertices; ++i)
     {
         HEV *hev = new HEV;
-        hev->x = vertices->at(i)->x;
-        hev->y = vertices->at(i)->y;
-        hev->z = vertices->at(i)->z;
+        hev->position = *vertices->at(i);
         hev->out = NULL;
 
         hevs->push_back(hev);
