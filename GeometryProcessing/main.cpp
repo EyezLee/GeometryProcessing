@@ -6,6 +6,7 @@
 #include <../../GeometryProcessing/shader.h>
 #include <../../camera.h>
 #include <../../he/halfedge.h>
+#include <../../smooth.h>
 // namespace 
 using namespace std;
 

@@ -41,5 +41,8 @@
     <ClInclude Include="he\hestructs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="smooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
