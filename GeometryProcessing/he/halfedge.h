@@ -332,7 +332,7 @@ static bool build_HE(he::Mesh_Data *mesh,
         he::HEV *hev = new he::HEV;
         hev->position = *vertices->at(i);
         hev->out = NULL;
-
+        hev->index = i;
         hevs->push_back(hev);
     }
 
