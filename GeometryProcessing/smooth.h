@@ -75,8 +75,9 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 
 	// heat equation after implicit/ backward Euler
 	// F = (I - h * ∆)
-	double timeStep = 0.0001;
+	double timeStep = 0.002;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
+	identity.reserve(1);
 	identity.setIdentity();
 	laplacian = identity - timeStep * laplacian;
 
@@ -86,13 +87,17 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 }
 
 // solve position x y z 
-void solve()
+void Smooth(vector<he::HEV*>* hev)
 {
 	// build discrete laplacian matrix operator
+	Eigen::SparseMatrix<double> F = build_laplacian(hev);
 
 	// init solver
-	
+	Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>> solver;
+
 	// tailor solver to matrix
+	solver.analyzePattern(F);
+	solver.factorize(F);
 
 	// roll in rho vectors
 	/* 
@@ -100,15 +105,36 @@ void solve()
 	F * xh = x0
 	x0 is rho 
 	*/
+	int verticesNum = hev->size() - 1;
+	Eigen::VectorXd rhoX(verticesNum);
+	Eigen::VectorXd rhoY(verticesNum);
+	Eigen::VectorXd rhoZ(verticesNum);
+	for (int i = 1; i < hev->size(); i++)
+	{
+		rhoX(i - 1) = hev->at(i)->position.x;
+		rhoY(i - 1) = hev->at(i)->position.y;
+		rhoZ(i - 1) = hev->at(i)->position.z;
+	}
 
 	// init newly smoothed vectors
+	Eigen::VectorXd phiX(verticesNum);
+	Eigen::VectorXd phiY(verticesNum);
+	Eigen::VectorXd phiZ(verticesNum);
 
 	// solve
+	phiX = solver.solve(rhoX);
+	phiY = solver.solve(rhoY);
+	phiZ = solver.solve(rhoZ);
 
 	// update vertices position and normals
-
+	for (int i = 1; i < hev->size(); i++)
+	{
+		hev->at(i)->position.x = phiX(i - 1);
+		hev->at(i)->position.y = phiY(i - 1);
+		hev->at(i)->position.z = phiZ(i - 1);
+	}
+	updata_HE_normal(hev);
 }
-// solve possion equation by heat equation
 
 
 #endif // !SMOOTH_H

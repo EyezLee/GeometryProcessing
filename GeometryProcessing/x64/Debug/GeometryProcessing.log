@@ -87,7 +87,23 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(394,32): warning
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(444,40): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(445,23): warning C4018: '<': signed/unsigned mismatch
 D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(11,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(129,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(179,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(179,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(108,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(132,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(133,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(134,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(131,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(181,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(181,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe

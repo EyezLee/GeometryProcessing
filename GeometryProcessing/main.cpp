@@ -63,6 +63,8 @@ int main()
 	vector<he::HEV*>* hev = new vector<he::HEV*>;
 	bool success = build_HE(meshData, hev, hef);
 	updata_HE_normal(hev);
+
+	Smooth(hev);
 	vbo_t heVbo = HEVtoVBO(hev, &scene.models[0].meshSource->indices);
 
 	// prepare shader program
