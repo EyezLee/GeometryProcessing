@@ -12,7 +12,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 	Eigen::SparseMatrix<double> laplacian(verticesNum, verticesNum); // discrete laplacian 
 
 	// reserve space for non-zero elements in sparse matrix
-	laplacian.reserve(7);
+	laplacian.reserve(Eigen::VectorXi::Constant(verticesNum, 7));
 
 	// fill out matrix for per vertex
 	for (int i = 1; i < hev->size(); i++) // index 0 is null 
@@ -33,7 +33,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 			halfedge = halfedge->next->next->flip;
 		} 
 		while (halfedge != v->out);
-
+		float twoA = area * 2;
 		// store matrix
 		float cotSum = 0; // for when i = j
 		halfedge = v->out; // reset halfedge
@@ -62,7 +62,9 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 						∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
 					}	
 			*/
-			laplacian.insert(i - 1, j - 1) = -(cotA + cotB) / 2 * area; // when i != j
+			int row = i - 1, colume = j - 1;
+			float kn = -(cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
+			laplacian.insert(row, colume) = kn; // when i != j
 
 			// move to the next vertex
 			halfedge = halfedge->flip->next;
@@ -70,14 +72,15 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 		while (halfedge != v->out); 
 		
 		//	∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
-		laplacian.insert(i - 1, i - 1) = cotSum / 2 * area;
+		int row = i - 1;
+		laplacian.insert(row, row) = cotSum / twoA;
 	}
 
-	// heat equation after implicit/ backward Euler
-	// F = (I - h * ∆)
-	double timeStep = 0.002;
+	 //heat equation after implicit/ backward Euler
+	 //F = (I - h * ∆)
+	double timeStep = 0.0008;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
-	identity.reserve(1);
+	identity.reserve(Eigen::VectorXi::Constant(verticesNum, 1));
 	identity.setIdentity();
 	laplacian = identity - timeStep * laplacian;
 
@@ -95,7 +98,7 @@ void Smooth(vector<he::HEV*>* hev)
 	// init solver
 	Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>> solver;
 
-	// tailor solver to matrix
+	//// tailor solver to matrix
 	solver.analyzePattern(F);
 	solver.factorize(F);
 

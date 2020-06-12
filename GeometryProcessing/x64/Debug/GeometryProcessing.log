@@ -1,5 +1,4 @@
-﻿  glad.c
-  main.cpp
+﻿  main.cpp
 D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(245,55): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(246,20): warning C4018: '<': signed/unsigned mismatch
 D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(252,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
@@ -87,18 +86,18 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(394,32): warning
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(444,40): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(445,23): warning C4018: '<': signed/unsigned mismatch
 D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(11,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(108,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(132,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(111,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(135,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(133,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(136,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
           with
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(134,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(137,32): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
           with
           [
               T=float
