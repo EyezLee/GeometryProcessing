@@ -9,10 +9,10 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 {
 	// initialize matrix
 	int verticesNum = hev->size() - 1;
-	Eigen::SparseMatrix<double> DL(verticesNum, verticesNum); // discrete laplacian 
+	Eigen::SparseMatrix<double> laplacian(verticesNum, verticesNum); // discrete laplacian 
 
 	// reserve space for non-zero elements in sparse matrix
-	DL.reserve(7);
+	laplacian.reserve(7);
 
 	// fill out matrix for per vertex
 	for (int i = 1; i < hev->size(); i++) // index 0 is null 
@@ -62,7 +62,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 						∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
 					}	
 			*/
-			DL.insert(i - 1, j - 1) = -(cotA + cotB) / 2 * area; // when i != j
+			laplacian.insert(i - 1, j - 1) = -(cotA + cotB) / 2 * area; // when i != j
 
 			// move to the next vertex
 			halfedge = halfedge->flip->next;
@@ -70,17 +70,42 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 		while (halfedge != v->out); 
 		
 		//	∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
-		DL.insert(i - 1, i - 1) = cotSum / 2 * area;
+		laplacian.insert(i - 1, i - 1) = cotSum / 2 * area;
 	}
 
+	// heat equation after implicit/ backward Euler
+	// F = (I - h * ∆)
+	double timeStep = 0.0001;
+	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
+	identity.setIdentity();
+	laplacian = identity - timeStep * laplacian;
+
 	// for efficient storage
-	DL.makeCompressed();
-	return DL;
+	laplacian.makeCompressed();
+	return laplacian;
 }
 
 // solve position x y z 
 void solve()
 {
+	// build discrete laplacian matrix operator
+
+	// init solver
+	
+	// tailor solver to matrix
+
+	// roll in rho vectors
+	/* 
+	Poisson equation Δϕ = ρ
+	F * xh = x0
+	x0 is rho 
+	*/
+
+	// init newly smoothed vectors
+
+	// solve
+
+	// update vertices position and normals
 
 }
 // solve possion equation by heat equation
