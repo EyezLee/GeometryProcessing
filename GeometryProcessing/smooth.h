@@ -12,7 +12,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 	Eigen::SparseMatrix<double> laplacian(verticesNum, verticesNum); // discrete laplacian 
 
 	// reserve space for non-zero elements in sparse matrix
-	laplacian.reserve(Eigen::VectorXi::Constant(verticesNum, 7));
+	laplacian.reserve(Eigen::VectorXi::Constant(verticesNum, 20));
 
 	// fill out matrix for per vertex
 	for (int i = 1; i < hev->size(); i++) // index 0 is null 
@@ -63,7 +63,9 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 					}	
 			*/
 			int row = i - 1, colume = j - 1;
-			float kn = -(cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
+			//std::cout << row << "|" << colume << endl;
+
+			double kn = -(cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
 			laplacian.insert(row, colume) = kn; // when i != j
 
 			// move to the next vertex
@@ -73,12 +75,12 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 		
 		//	∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
 		int row = i - 1;
-		laplacian.insert(row, row) = cotSum / twoA;
+		laplacian.insert(row, row) = double(cotSum / twoA);
 	}
 
 	 //heat equation after implicit/ backward Euler
 	 //F = (I - h * ∆)
-	double timeStep = 0.0008;
+	double timeStep = 0.0003 ;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
 	identity.reserve(Eigen::VectorXi::Constant(verticesNum, 1));
 	identity.setIdentity();
@@ -99,45 +101,44 @@ void Smooth(vector<he::HEV*>* hev)
 	Eigen::SparseLU<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int>> solver;
 
 	//// tailor solver to matrix
-	solver.analyzePattern(F);
-	solver.factorize(F);
+	//solver.analyzePattern(F);
+	//solver.factorize(F);
 
-	// roll in rho vectors
-	/* 
-	Poisson equation Δϕ = ρ
-	F * xh = x0
-	x0 is rho 
-	*/
-	int verticesNum = hev->size() - 1;
-	Eigen::VectorXd rhoX(verticesNum);
-	Eigen::VectorXd rhoY(verticesNum);
-	Eigen::VectorXd rhoZ(verticesNum);
-	for (int i = 1; i < hev->size(); i++)
-	{
-		rhoX(i - 1) = hev->at(i)->position.x;
-		rhoY(i - 1) = hev->at(i)->position.y;
-		rhoZ(i - 1) = hev->at(i)->position.z;
-	}
+	//// roll in rho vectors
+	///* 
+	//Poisson equation Δϕ = ρ
+	//F * xh = x0
+	//x0 is rho 
+	//*/
+	//int verticesNum = hev->size() - 1;
+	//Eigen::VectorXd rhoX(verticesNum);
+	//Eigen::VectorXd rhoY(verticesNum);
+	//Eigen::VectorXd rhoZ(verticesNum);
+	//for (int i = 1; i < hev->size(); i++)
+	//{
+	//	rhoX(i - 1) = hev->at(i)->position.x;
+	//	rhoY(i - 1) = hev->at(i)->position.y;
+	//	rhoZ(i - 1) = hev->at(i)->position.z;
+	//}
 
-	// init newly smoothed vectors
-	Eigen::VectorXd phiX(verticesNum);
-	Eigen::VectorXd phiY(verticesNum);
-	Eigen::VectorXd phiZ(verticesNum);
+	//// init newly smoothed vectors
+	//Eigen::VectorXd phiX(verticesNum);
+	//Eigen::VectorXd phiY(verticesNum);
+	//Eigen::VectorXd phiZ(verticesNum);
 
-	// solve
-	phiX = solver.solve(rhoX);
-	phiY = solver.solve(rhoY);
-	phiZ = solver.solve(rhoZ);
+	//// solve
+	//phiX = solver.solve(rhoX);
+	//phiY = solver.solve(rhoY);
+	//phiZ = solver.solve(rhoZ);
 
-	// update vertices position and normals
-	for (int i = 1; i < hev->size(); i++)
-	{
-		hev->at(i)->position.x = phiX(i - 1);
-		hev->at(i)->position.y = phiY(i - 1);
-		hev->at(i)->position.z = phiZ(i - 1);
-	}
-	updata_HE_normal(hev);
+	//// update vertices position and normals
+	//for (int i = 1; i < hev->size(); i++)
+	//{
+	//	hev->at(i)->position.x = phiX(i - 1);
+	//	hev->at(i)->position.y = phiY(i - 1);
+	//	hev->at(i)->position.z = phiZ(i - 1);
+	//}
+	//updata_HE_normal(hev);
 }
-
 
 #endif // !SMOOTH_H
