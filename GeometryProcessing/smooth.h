@@ -1,9 +1,6 @@
 ﻿#ifndef SMOOTH_H
 #define SMOOTH_H
 
-// multi thread
-#include <omp.h>
-
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 // build sparse matrix for laplacian
