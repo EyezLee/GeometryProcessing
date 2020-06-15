@@ -27,15 +27,17 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 		float area = 0;
 		do 
 		{
-			he::HEV* nextV = halfedge->next->vertex;
+			he::HEV* v1 = halfedge->next->vertex;
+			he::HEV* v2 = halfedge->next->next->vertex;
 			// incident area of vertex i 
-			float triangle = glm::length(glm::cross(nextV->position - v->position, halfedge->next->next->vertex->position - v->position)) / 2; // triangle area
+			float triangle = glm::length(glm::cross(v1->position - v->position, v2->position - v->position)) / 2; // triangle area
 			area += triangle;
 
 			// traverse to next vertex
 			halfedge = halfedge->flip->next;
 		} 
 		while (halfedge != v->out);
+
 		float twoA = area * 2;
 		// store matrix
 		float cotSum = 0; // for when i = j
@@ -54,8 +56,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 			float cotA = glm::dot(alphatoV, alphatoN) / glm::length(glm::cross(alphatoV, alphatoN)); 
 			glm::vec3 betatoV = v->position - betaV->position;
 			glm::vec3 betatoN = nextV->position - betaV->position;
-			float cotB = glm::dot(betatoV, betatoN) - glm::length(glm::cross(betatoV, betatoN));
-			cotSum += cotA + cotB;
+			float cotB = glm::dot(betatoV, betatoN) / glm::length(glm::cross(betatoV, betatoN));
 			/*
 			∆ = 1 / 2A ∑(cot(alpha) + cot(beta)) * (vi - vj);
 			   = ∑(cot(alpha) + cot(beta)) / 2A * vi - ∑(cot(alpha) + cot(beta)) / 2A * vj;
@@ -70,6 +71,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 
 			double kn = -(cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
 			laplacian.insert(row, colume) = kn; // when i != j
+			cotSum -= kn;
 
 			// move to the next vertex
 			halfedge = halfedge->flip->next;
@@ -78,12 +80,12 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 		
 		//	∑(cot(alpha) + cot(beta))ij	/ 2A		i=j
 		int row = i - 1;
-		laplacian.insert(row, row) = cotSum / twoA;
+		laplacian.insert(row, row) = cotSum;
 	}
 
 	 //heat equation after implicit/ backward Euler
 	 //F = (I - h * ∆)
-	double timeStep = 0.0128;
+	double timeStep = 0.0016;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
 	identity.reserve(Eigen::VectorXi::Constant(verticesNum, 1));
 	identity.setIdentity();
