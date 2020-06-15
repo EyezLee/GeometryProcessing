@@ -85,9 +85,9 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(393,32): warning
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(394,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(444,40): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(445,23): warning C4018: '<': signed/unsigned mismatch
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(14,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(74,16): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(121,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(11,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(71,16): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(118,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(151,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(201,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(201,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data

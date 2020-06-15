@@ -66,9 +66,9 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 			int row = i - 1, colume = j - 1;
 			//std::cout << row << "|" << colume << endl;
 
-			double kn = -(cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
-			laplacian.insert(row, colume) = kn; // when i != j
-			cotSum -= kn;
+			double kn = (cotA + cotB) / twoA; // curvature normal to approximate discrete laplacian
+			laplacian.insert(row, colume) = -kn; // when i != j
+			cotSum += kn;
 
 			// move to the next vertex
 			halfedge = halfedge->flip->next;
@@ -82,7 +82,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 
 	 //heat equation after implicit/ backward Euler
 	 //F = (I - h * ∆)
-	double timeStep = 0.0016;
+	double timeStep = 0.0002;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
 	identity.reserve(Eigen::VectorXi::Constant(verticesNum, 1));
 	identity.setIdentity();
@@ -96,10 +96,6 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 // solve position x y z 
 void Smooth(vector<he::HEV*>* hev)
 {
-	int n = Eigen::nbThreads();
-	Eigen::setNbThreads(n);
-	std::cout << n << std::endl;
-
 	// build discrete laplacian matrix operator
 	Eigen::SparseMatrix<double> F = build_laplacian(hev);
 
