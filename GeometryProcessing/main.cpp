@@ -1,12 +1,15 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-#include <../../parse.h>
 #include <../../GeometryProcessing/shader.h>
-#include <../../camera.h>
-#include <../../he/halfedge.h>
-#include <../../smooth.h>
+#include <../../GeometryProcessing/parse.h>
+#include <../../GeometryProcessing/camera.h>
+#include <../../GeometryProcessing/he/halfedge.h>
+#include <../../GeometryProcessing/smooth.h>
 // namespace 
 using namespace std;
 
@@ -74,18 +77,19 @@ int main()
 	}
 	glEnable(GL_DEPTH_TEST);
 
-	string scenePath = "../src/sceneData/scene_bunny1.txt";
+	string scenePath = "../src/sceneData/scene_bunny_he.txt";
 	ParseScene(&scene, scenePath);
 
 	// half edge
+	/*
 	he::Mesh_Data* meshData = new he::Mesh_Data(scene.models[0].meshSource);
 	vector<he::HEF*>* hef = new vector<he::HEF*>;
 	vector<he::HEV*>* hev = new vector<he::HEV*>;
 	bool success = build_HE(meshData, hev, hef);
 	updata_HE_normal(hev);
-
 	Smooth(hev);
 	vbo_t heVbo = HEVtoVBO(hev, &scene.models[0].meshSource->indices);
+	*/
 
 	// prepare shader program
 	string vertexPath = "../src/shaders/phongShading.vs";
@@ -100,7 +104,8 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	vbo_t vboBuffer = MeshtoVBO(&scene.models[0]);
-	glBufferData(GL_ARRAY_BUFFER, heVbo.size() * sizeof(Vertex), &heVbo[0], GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, heVbo.size() * sizeof(Vertex), &heVbo[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vboBuffer.size() * sizeof(Vertex), &vboBuffer[0], GL_STATIC_DRAW);
 
 	//GLuint EBO; // element buffer object
 	//glGenBuffers(1, &EBO);
@@ -155,8 +160,8 @@ int main()
 		glfwPollEvents();
 	}
 
-	delete_HE(hev, hef);
 	// terminte program
+	//delete_HE(hev, hef);
 	glfwTerminate();
 	return 0;
 }

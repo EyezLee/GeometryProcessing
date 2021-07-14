@@ -121,7 +121,9 @@
 #include <vector>
 
 //#include "structs.h"
-#include <../../he/hestructs.h>
+//#include <../../he/hestructs.h>
+#include <../../GeometryProcessing/he/hestructs.h>
+
 /* After this point, the comments stop. You shouldn't really need to know the
  * details of the following functions to know how to use this halfedge implementation.
  */

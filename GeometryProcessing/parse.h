@@ -9,7 +9,8 @@
 #include <map>
 #include <vector>
 
-#include <../../scene.h>
+//#include <../../scene.h>
+#include <../../GeometryProcessing/scene.h>
 
 using namespace std;
 

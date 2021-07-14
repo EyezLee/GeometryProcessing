@@ -82,7 +82,7 @@ Eigen::SparseMatrix<double>  build_laplacian(vector<he::HEV*>* hev)
 
 	 //heat equation after implicit/ backward Euler
 	 //F = (I - h * ∆)
-	double timeStep = 0.0002;
+	double timeStep = 0.0004;
 	Eigen::SparseMatrix<double> identity(verticesNum, verticesNum);
 	identity.reserve(Eigen::VectorXi::Constant(verticesNum, 1));
 	identity.setIdentity();

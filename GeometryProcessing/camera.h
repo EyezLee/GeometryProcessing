@@ -2,7 +2,7 @@
 #define CAMERA_H
 
 #include <glad/glad.h>
-#include <../../scene.h>
+#include <../../GeometryProcessing/scene.h>
 
 enum Camera_Movement
 {

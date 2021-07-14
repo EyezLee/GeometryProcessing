@@ -1,47 +1,37 @@
 ﻿  main.cpp
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(245,55): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(246,20): warning C4018: '<': signed/unsigned mismatch
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(252,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(255,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
-          with
-          [
-              T=float
-          ]
 D:\Projects\GeometryProcessing\GeometryProcessing\shader.h(40,29): warning C4101: 'e': unreferenced local variable
-D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(21,30): warning C4305: 'initializing': truncation from 'double' to 'float'
-D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(22,28): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(246,55): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(247,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(253,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\parse.h(256,23): warning C4244: 'initializing': conversion from 'T' to 'GLuint', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(21,24): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Projects\GeometryProcessing\GeometryProcessing\camera.h(22,22): warning C4305: 'initializing': truncation from 'double' to 'float'
 D:\Projects\GeometryProcessing\GeometryProcessing\he\hestructs.h(57,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\hestructs.h(60,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\hestructs.h(67,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\hestructs.h(71,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(299,27): warning C4553: '==': result of expression not used; did you intend '='?
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(328,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(340,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(367,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(368,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
-          with
-          [
-              T=float
-          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(301,27): warning C4553: '==': result of expression not used; did you intend '='?
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(330,41): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(342,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(369,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
           with
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(371,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(370,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
           with
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(372,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(371,32): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
           with
           [
               T=float
@@ -51,22 +41,12 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(373,19): warning
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(375,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(374,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
           with
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(375,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(376,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(376,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(375,19): warning C4244: 'argument': conversion from 'T' to 'const unsigned __int64', possible loss of data
           with
           [
               T=float
@@ -81,14 +61,49 @@ D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(377,44): warning
           [
               T=float
           ]
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(393,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(394,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(444,40): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(445,23): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(378,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(378,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(379,50): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(379,44): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(395,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(396,32): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(446,40): warning C4267: 'initializing': conversion from 'size_t' to 'GLuint', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\he\halfedge.h(447,23): warning C4018: '<': signed/unsigned mismatch
 D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(11,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(71,16): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(118,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(151,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(201,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(201,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\smooth.h(114,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(156,49): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(206,39): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Projects\GeometryProcessing\GeometryProcessing\main.cpp(206,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(init.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(init.obj)' or at ''; linking object as if no debug info
+glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(vulkan.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(vulkan.obj)' or at ''; linking object as if no debug info
+glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_joystick.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(win32_thread.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(win32_thread.obj)' or at ''; linking object as if no debug info
+glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
+glfw3.lib(egl_context.obj) : warning LNK4099: PDB '' was not found with 'glfw3.lib(egl_context.obj)' or at ''; linking object as if no debug info
+glfw3.lib(osmesa_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(osmesa_context.obj)' or at 'D:\Projects\GeometryProcessing\x64\Debug\glfw.pdb'; linking object as if no debug info
   GeometryProcessing.vcxproj -> D:\Projects\GeometryProcessing\x64\Debug\GeometryProcessing.exe
