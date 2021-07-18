@@ -92,8 +92,8 @@ int main()
 	*/
 
 	// prepare shader program
-	string vertexPath = "../src/shaders/phongShading.vs";
-	string fragmentPath = "../src/shaders/phongShading.fs";
+	string vertexPath = "../src/shaders/PBR.vs";
+	string fragmentPath = "../src/shaders/PBR.fs";
 	Shader shaderProgram(vertexPath, fragmentPath);
 
 	// VAO container: VBO + EBO + vertex attributes operation
