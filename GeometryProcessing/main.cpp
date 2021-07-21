@@ -121,12 +121,17 @@ int main()
 	// set uniform values to shader program
 	shaderProgram.UseShader(); // need to install shader program object first
 	shaderProgram.SetMat4("projection", scene.projection);
+	glm::vec3 lightColorPBR = glm::vec3(80, 100, 100);
 	shaderProgram.SetVec3("light.lightPos", scene.lights[0].pos);
-	shaderProgram.SetVec3("light.lightCol", scene.lights[0].col);
-	shaderProgram.SetVec3("material.diffuseCol", scene.models[0].material.diffuse);
-	shaderProgram.SetVec3("material.ambientCol", scene.models[0].material.ambient);
-	shaderProgram.SetVec3("material.specularCol", scene.models[0].material.specular);
-	shaderProgram.SetFloat("material.shininess", scene.models[0].material.shininess);
+	shaderProgram.SetVec3("light.lightCol", lightColorPBR);
+	shaderProgram.SetVec3("albedo", scene.models[0].material.diffuse);
+	shaderProgram.SetFloat("metallic", 0.5);
+	shaderProgram.SetFloat("roughness", 0.1);
+	shaderProgram.SetFloat("ao", 0.1);
+	//shaderProgram.SetVec3("material.diffuseCol", scene.models[0].material.diffuse);
+	//shaderProgram.SetVec3("material.ambientCol", scene.models[0].material.ambient);
+	//shaderProgram.SetVec3("material.specularCol", scene.models[0].material.specular);
+	//shaderProgram.SetFloat("material.shininess", scene.models[0].material.shininess);
 	shaderProgram.SetVec3("cameraPos", camera.m_position);
 	glm::mat3 modelNorm = glm::mat3(glm::transpose(glm::inverse(scene.models[0].modelMatrix)));
 	shaderProgram.SetMat3("modelNorm", modelNorm);

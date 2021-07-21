@@ -68,15 +68,15 @@ void main()
 	vec3 L = normalize(light.lightPos - worldPos);
 	vec3 H = normalize(V + L);
 	float distance = length(light.lightPos - worldPos);
-	float attenuation = 1 / (distance * distance);
+	float attenuation = 1.0 / (distance * distance);
 	float cosTheta = max(dot(N, L), 0);
 	// rediance
 	vec3 radiance = light.lightCol * attenuation;
 
 	// fresnal
-	vec3 f0 = vec3(0.4);
+	vec3 f0 = vec3(0.04);
 	f0 = mix(f0, albedo, metallic);
-	vec3 fresnel = fresnelSchlick(cosTheta, f0);
+	vec3 fresnel = fresnelSchlick(max(dot(H, V), 0), f0);
 
 	vec3 KS = fresnel; // reflected light energy -- specular ratio
 	vec3 KD = vec3(1) - KS; // refracted light energy -- diffuse ratio
@@ -85,10 +85,9 @@ void main()
 	float geometryOvershadow = GeometrySmith(N, V, L, roughness);
 	float normalDistribution = DistributionGGX(N, H, roughness);
 	vec3 DFG = geometryOvershadow * normalDistribution * fresnel;
-	float dominator = 4 * max(dot(N, V), 0) * cosTheta;
+	float dominator = 4.0 * max(dot(N, V), 0) * cosTheta;
 	vec3 specular = DFG / max(dominator, 0.001);
 
-	
 	vec3 diffuse = albedo / PI; // c / PI
 
 	vec3 reflectance = (KD * diffuse + KS * specular) * radiance * cosTheta;
@@ -96,6 +95,11 @@ void main()
 	// ambience
 	vec3 ambient = vec3(0.03) * albedo * ao;
 
-	vec4 col = vec4(1);
-	FragColor = col;
+	vec3 col = reflectance + ambient;
+
+	// HDR and gamma correction
+	col = col / (col + vec3(1.0));
+	col = pow(col, vec3(1.0/2.2));
+
+	FragColor = vec4(col, 1);
 }
