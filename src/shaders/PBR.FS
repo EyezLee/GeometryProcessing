@@ -15,7 +15,7 @@ uniform float metallic;
 uniform float roughness;
 uniform float ao;
 
-uniform vec3 cameraPos;
+uniform vec3 cameraPos; 
 
 out vec4 FragColor;
 
@@ -83,7 +83,7 @@ void main()
 
 	// reflection part of BRDF
 	float geometryOvershadow = GeometrySmith(N, V, L, roughness);
-	float normalDistribution = DistributionGGX(N, H, roughtness);
+	float normalDistribution = DistributionGGX(N, H, roughness);
 	vec3 DFG = geometryOvershadow * normalDistribution * fresnel;
 	float dominator = 4 * max(dot(N, V), 0) * cosTheta;
 	vec3 specular = DFG / max(dominator, 0.001);
